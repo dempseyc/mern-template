@@ -15,9 +15,6 @@ const cors = require('cors');
 
 const jwt = require('jsonwebtoken');
 
-// move constants to .env file or something
-const key = {TOKEN_KEY: 'DA_TOKEN_KEY' };
-
 const userRouter = require('./routes/userRouter');
 
 const User = require('./models/User');
@@ -56,7 +53,7 @@ app.use('/api/auth/login', function(req,res,next) {
 app.use(function(req,res,next){
     try {
         const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, key.TOKEN_KEY, function (err, payload) {
+        jwt.verify(token, env.TOKEN_KEY, function (err, payload) {
             if (payload) {
                 User.findById(payload.user_id).then(
                     (doc) => {
