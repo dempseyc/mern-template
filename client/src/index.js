@@ -1,12 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import {render} from 'react-dom'
+import { Provider } from 'react-redux'
+import App from './components/App'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// import { applyMiddleware } from 'redux'
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
+// import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+import rootReducer from './reducers'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const logger = createLogger();
+const middleware = [...getDefaultMiddleware(),logger];
+
+const preloadedState = {
+  todos: [
+    {
+      text: 'Eat food',
+      completed: true
+    },
+    {
+      text: 'Exercise',
+      completed: false
+    }
+  ],
+}
+
+const store = configureStore({
+    reducer: rootReducer,
+    middleware,
+    preloadedState,
+});
+
+const Root = () => (
+  <Provider store={store}>
+  {/* <MuiThemeProvider theme={theme}> */}
+    <App />
+  {/* </MuiThemeProvider> */}
+  </Provider>
+);
+
+render(<Root />, document.getElementById('root'));
