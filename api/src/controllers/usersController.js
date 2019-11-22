@@ -34,3 +34,7 @@ exports.create = function(req, res) {
  exports.update = function(req, res) {
      console.log('user update');
  }
+
+ exports.delete = (req, res) => {
+     console.log('user delete');
+ }

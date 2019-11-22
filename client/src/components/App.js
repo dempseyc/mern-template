@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import AddTodo from 'features/todos/AddTodo'
+import VisibleTodoList from 'features/todos/VisibleTodoList'
+import Footer from 'features/filters/Footer'
 
 // import Header from '../components/Header';
 // import NavBar from './containers//NavBar';
 
-// import { fetchUsers, fetchUser } from '../actions/userActions';
+// import { fetchUser, fetchTodos } from '../actions/userActions';
 
 class App extends Component {
 
 	// initialFetch () {
-	// 	this.props.dispatch(fetchUsers());
 	// 	this.props.dispatch(fetchUser());
+	// 	this.props.dispatch(fetchTodos());
 	// }
 
 	// componentDidMount() {
@@ -18,7 +22,13 @@ class App extends Component {
 	// }
 
 	render () {
-		return <div className="App">mern app, RTK</div>
+		return (
+			<div>
+				<AddTodo />
+				<VisibleTodoList />
+				<Footer />
+			</div>
+		)
 	}
 }
 

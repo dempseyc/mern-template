@@ -9,8 +9,8 @@ const mongoose = require('mongoose');
 
 const cors = require('cors');
 const dbURL = 'mongodb://localhost:27017/mern-template';
-mongoose.connect(dbURL, { useNewUrlParser: true });
-mongoose.Promise = global.Promise;
+mongoose.connect(dbURL, {useFindAndModify: false, useNewUrlParser: true});
+mongoose.Promise = global.Promise;  
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -23,6 +23,11 @@ function log(err, results) {
     else {
         console.log('results:', JSON.stringify(results)); 
     }
+}
+
+function todoCreate(todoDetails, logger) {
+    let todo = new Todo(details);
+    return todo;
 }
 
 function userCreate(userDetails, logger) {
@@ -47,7 +52,7 @@ const create1User = () => {
         l_name: 'one',
         email: 'u1@u.com',
         pw_hash: '1',
-        admin: true //!!don't include for all seeds
+        todos: todoCreate({text:"add todos",completed:false})
     }, log);
 }
 

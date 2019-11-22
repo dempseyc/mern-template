@@ -16,22 +16,9 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const userRouter = require('./routes/userRouter');
+const todoRouter = require('./routes/todoRouter');
 
 const User = require('./models/User');
-
-// protect routes but give access to celeste bot ???
-
-// function protectRoute(req,res,next){
-//   // if user exists the token was sent with the request
-//   if(req.user){
-//    //if user exists then go to next middleware
-//      next();
-//   }
-// // token was not sent with request send error to user
-//   else{
-//      res.status(500).json({error:'login is required'});
-//   }
-// }
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -82,6 +69,7 @@ app.use(morgan('dev', {
     }, stream: process.stdout
 }));
 
+app.use('/api/user/:id/todos', todoRouter);
 app.use('/api/user', userRouter);
 
 app.get('/', function (req, res) {
@@ -104,7 +92,7 @@ app.post('/api/auth/login', function(req,res){
                             token
                         })
                     } else {
-                        res.status(400).json({message: 'Invalid Password/Username'});
+                        res.status(401).json({message: 'Invalid Password/Username'});
                     }
                 });
         })
@@ -115,13 +103,6 @@ app.post('/api/auth/login', function(req,res){
         res.status(400).json({message:'No Auth Details'});
     }
 });
-
-// need middleware to handle error
-
-// app.use(function(req, res, next){
-//     logger.error('404 page requested');
-//     res.status(404).send('This page does not exist!');
-// });
 
 app.listen(3001, function () {
   console.log('Example app listening on port 8080!')

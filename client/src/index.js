@@ -16,11 +16,13 @@ const preloadedState = {
   todos: [
     {
       text: 'Eat food',
-      completed: true
+      completed: true,
+      id: 0
     },
     {
       text: 'Exercise',
-      completed: false
+      completed: false,
+      id: 1
     }
   ],
 }

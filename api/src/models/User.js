@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
+const TodoSchema = require('./Todo').schema;
+
 const UserSchema = new Schema({
     created_on: {type: Date, default: Date.now },
     time_zone: String,
@@ -10,6 +12,7 @@ const UserSchema = new Schema({
     email: {type: String, required: true, max: 100, unique: true},
     pw_hash: {type: String, required: true, max: 100},
     recently_active_on: {type: Date, default: Date.now },
+    todos: [TodoSchema],
     admin: Boolean,
 });
 
@@ -33,12 +36,6 @@ UserSchema.pre('save', function (next) {
 }, function (err) {
     next(err);
 });
-
-UserSchema.pre('save', function (next) {
-    const user = this;
-    if (!user.isModified('admin')) { return next(); }
-    if (user.email = 'u1@u.com')
-})
 
 UserSchema.methods.comparePassword = (candidatePassword,next) => {
     bcrypt.compare(candidatePassword, this.password, (err,isMatch) => {
