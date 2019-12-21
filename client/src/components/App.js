@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import AddTodo from 'features/todos/AddTodo'
+import LoginForm from 'features/user/LoginForm'
+import TodoForm from 'features/todos/TodoForm'
 import VisibleTodoList from 'features/todos/VisibleTodoList'
 import Footer from 'features/filters/Footer'
 
@@ -24,7 +24,8 @@ class App extends Component {
 	render () {
 		return (
 			<div>
-				<AddTodo />
+				<LoginForm />
+				<TodoForm />
 				<VisibleTodoList />
 				<Footer />
 			</div>

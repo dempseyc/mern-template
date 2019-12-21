@@ -4,7 +4,7 @@ import { addTodo } from 'features/todos/todosSlice'
 
 const mapDispatch = { addTodo }
 
-const AddTodo = ({ addTodo }) => {
+const TodoForm = ({ addTodo }) => {
   const [todoText, setTodoText] = useState('')
 
   const onChange = e => setTodoText(e.target.value)
@@ -31,4 +31,4 @@ const AddTodo = ({ addTodo }) => {
 export default connect(
   null,
   mapDispatch
-)(AddTodo)
+)(TodoForm)
