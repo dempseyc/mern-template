@@ -23,6 +23,7 @@ export function createUser (details) {
 
 export function loginUser (details) {
     return function (dispatch) {
+        dispatch(setCredentials(details));
         var basicAuth = 'Basic ' + btoa(details.email + ':' + details.password)
         let url = process.env.REACT_APP_API_URL_DEV+'/api/auth/login'
         // let url = 'http://localhost:3001/api/auth/login'
@@ -73,6 +74,10 @@ export function fetchUser (id) {
     }
 }
 
+// export function getCredentials() {
+//     return state.credentials
+// }
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {loggedIn: false},
@@ -94,11 +99,20 @@ const userSlice = createSlice({
             state.push({ error })
         },
         loginUserFailure(state, action) {
-            const { error } = action.payload
+            const { error } = action.payload.response.data.message
             state.push({ error })
         },
         logoutUser(state, action) {
             state = {loggedIn: false}
+        },
+        setCredentials(state, action) {
+            const { details } = action.payload
+            state.push({credentials: details})
+        },
+        unsetCredentials(state, action) {
+            const { credentials } = state
+            state.credentials = null
+            return credentials
         }
     }
 })
@@ -109,7 +123,9 @@ export const {
     fetchUserSuccess,
     fetchUserFailure,
     loginUserFailure,
-    logoutUser 
+    logoutUser,
+    setCredentials,
+    unsetCredentials
 } = userSlice.actions
 
 export default userSlice.reducer

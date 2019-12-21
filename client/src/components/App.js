@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import LoginForm from 'features/user/LoginForm'
+import CreateLoginForm from 'features/user/CreateLoginForm'
 import TodoForm from 'features/todos/TodoForm'
 import VisibleTodoList from 'features/todos/VisibleTodoList'
 import Footer from 'features/filters/Footer'
@@ -24,7 +24,7 @@ class App extends Component {
 	render () {
 		return (
 			<div>
-				<LoginForm />
+				<CreateLoginForm createMode={true}/>
 				<TodoForm />
 				<VisibleTodoList />
 				<Footer />
