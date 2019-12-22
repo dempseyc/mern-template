@@ -2,6 +2,11 @@ import axios from 'axios'
 
 import { createSlice } from '@reduxjs/toolkit'
 
+export function lookupEmail (email) {
+    //hit GET /api/user/search
+    return {type: "LOOKUP_EMAIL", payload: true}
+}
+
 export function createUser (details) {
     return function (dispatch) {
         const url = process.env.REACT_APP_API_URL_DEV+'/api/user/create'
@@ -79,7 +84,7 @@ export function fetchUser (id) {
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: {loggedIn: false},
+    initialState: { loggedIn: false, credentials: {} },
     reducers: {
         createUserSuccess(state, action) {
             const { id } = action.payload
@@ -106,14 +111,14 @@ const userSlice = createSlice({
         },
         setCredentials(state, action) {
             const { details } = action.payload
-            state.push({credentials: details})
+            state.credentials.push(details)
         },
         getCredentials(state, action) {
             return state.credentials
         },
         unsetCredentials(state, action) {
             const { credentials } = state
-            state.credentials = null
+            state.credentials = {}
             return credentials
         }
     }
