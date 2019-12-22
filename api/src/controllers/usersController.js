@@ -1,5 +1,6 @@
 // const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const User = require('../models/User');
 
 exports.show = function(req,res) {

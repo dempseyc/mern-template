@@ -26,7 +26,6 @@ export function loginUser (details) {
         dispatch(setCredentials(details));
         var basicAuth = 'Basic ' + btoa(details.email + ':' + details.password)
         let url = process.env.REACT_APP_API_URL_DEV+'/api/auth/login'
-        // let url = 'http://localhost:3001/api/auth/login'
         return axios.post(url, {email: details.email}, {
             headers: {
                 'auth': basicAuth,
@@ -59,7 +58,7 @@ export function fetchUser (id) {
     return function (dispatch) {
         const token = localStorage.token
         const id = localStorage.id
-        const url = `api/user/${id}`
+        const url = `${process.env.REACT_APP_API_URL_DEV}/api/user/${id}`
         if (token) {
             return axios.get(url, {
                 headers: {
@@ -95,7 +94,7 @@ const userSlice = createSlice({
             state.push({ user, loggedIn: true })
         },
         fetchUserFailure(state, action) {
-            const { error } = action.payload
+            const { error } = action.payload.response.statusText
             state.push({ error })
         },
         loginUserFailure(state, action) {
@@ -108,6 +107,9 @@ const userSlice = createSlice({
         setCredentials(state, action) {
             const { details } = action.payload
             state.push({credentials: details})
+        },
+        getCredentials(state, action) {
+            return state.credentials
         },
         unsetCredentials(state, action) {
             const { credentials } = state
@@ -125,6 +127,7 @@ export const {
     loginUserFailure,
     logoutUser,
     setCredentials,
+    getCredentials,
     unsetCredentials
 } = userSlice.actions
 

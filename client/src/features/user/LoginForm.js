@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { loginUser } from 'features/user/userSlice'
+import { loginUser, unsetCredentials } from 'features/user/userSlice'
 
-const mapDispatch = { loginUser }
+const mapDispatch = { loginUser, unsetCredentials }
 
 const LoginForm = ({ loginUser, ...props }) => {
+    const credentials = unsetCredentials()
     const { onSubmit, addedFields } = props
-    const [emailText, setEmailText] = useState('')
-    const [passwordText, setPasswordText] = useState('')
+    const [emailText, setEmailText] = useState(credentials.email)
+    const [passwordText, setPasswordText] = useState(credentials.password)
 
     const onChangeE = e => setEmailText(e.target.value)
     const onChangePW = e => setPasswordText(e.target.value)
@@ -27,7 +28,9 @@ const LoginForm = ({ loginUser, ...props }) => {
         <form
             onSubmit={onSubmit ? onSubmit : onSubmitLogin}
         >
+            <label>Email</label>
             <input value={emailText} onChange={onChangeE} />
+            <label>Password</label>
             <input value={passwordText} onChange={onChangePW} />
             {addedFields}
             <button type="submit">Sign In</button>

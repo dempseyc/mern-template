@@ -40,7 +40,7 @@ app.use('/api/auth/login', function(req,res,next) {
 app.use(function(req,res,next){
     try {
         const token = req.headers.authorization.split(' ')[1];
-        jwt.verify(token, env.TOKEN_KEY, function (err, payload) {
+        jwt.verify(token, process.env.TOKEN_KEY, function (err, payload) {
             if (payload) {
                 User.findById(payload.user_id).then(
                     (doc) => {
@@ -81,20 +81,26 @@ app.get('/', function (req, res) {
 app.post('/api/auth/login', function(req,res){
     if (req.details) {
         User.findOne({email: req.details[0].toString()}, function (err,user) {
+            if(user) {
                 bcrypt.compare(req.details[1], user.pw_hash.toString(), (err, isMatch) => {
-                    if (isMatch) {
-                        var token = jwt.sign({user_id: user._id}, key.TOKEN_KEY);
+                    if (err) {
+                        throw err;
+                    } else if (isMatch) {
+                        var token = jwt.sign({user_id: user._id}, process.env.TOKEN_KEY);
                         res.status(200).json({
                             user_id: user._id,
                             email: user.email,
                             f_name: user.f_name,
                             l_name: user.l_name,
                             token
-                        })
+                        });
                     } else {
                         res.status(401).json({message: 'Invalid Password/Username'});
                     }
                 });
+            } else { 
+                res.status(401).json({message: 'Email not Found'});
+            }
         })
         .catch((err) => {
             res.status(400).json({message:'Invalid Request'});
@@ -104,8 +110,8 @@ app.post('/api/auth/login', function(req,res){
     }
 });
 
-app.listen(3001, function () {
-  console.log('Example app listening on port 8080!')
+app.listen(process.env.PORT||3002, function () {
+  console.log('Example app listening on port 3002!')
 });
 
 module.exports = app;

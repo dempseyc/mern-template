@@ -24,7 +24,7 @@ class App extends Component {
 	render () {
 		return (
 			<div>
-				<CreateLoginForm createMode={true}/>
+				<CreateLoginForm createMode={false}/>
 				<TodoForm />
 				<VisibleTodoList />
 				<Footer />

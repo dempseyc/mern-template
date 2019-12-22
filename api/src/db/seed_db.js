@@ -4,15 +4,13 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const User = require('../models/User');
+const Todo = require('../models/User');
 
-const mongoose = require('mongoose');
+const db = require('./db')
+// mongoose.Promise = global.Promise;  
 
 const cors = require('cors');
-const dbURL = 'mongodb://localhost:27017/mern-template';
-mongoose.connect(dbURL, {useFindAndModify: false, useNewUrlParser: true});
-mongoose.Promise = global.Promise;  
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 let userInstances = [];
 
@@ -26,7 +24,7 @@ function log(err, results) {
 }
 
 function todoCreate(todoDetails, logger) {
-    let todo = new Todo(details);
+    let todo = new Todo(todoDetails);
     return todo;
 }
 

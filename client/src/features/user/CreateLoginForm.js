@@ -17,7 +17,9 @@ const CreateLoginForm = ({ createUser, unsetCredentials, ...props }) => {
     const credentials = unsetCredentials();
     const nameFields = (
         <>
+        <label>First Name</label>
         <input value={FNameText} onChange={onChangeFN} />
+        <label>Last Name</label>
         <input value={LNameText} onChange={onChangeLN} />
         </>
     )
