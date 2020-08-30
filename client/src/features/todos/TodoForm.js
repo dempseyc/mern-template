@@ -4,7 +4,7 @@ import { addTodo } from 'features/todos/todosSlice'
 
 const mapDispatch = { addTodo }
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = ({ addTodo, ...props }) => {
   const [todoText, setTodoText] = useState('')
 
   const onChange = e => setTodoText(e.target.value)

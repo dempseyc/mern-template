@@ -2,21 +2,16 @@ import axios from 'axios'
 
 import { createSlice } from '@reduxjs/toolkit'
 
-export function lookupEmail (email) {
-    //hit GET /api/user/search
-    return {type: "LOOKUP_EMAIL", payload: true}
-}
-
 export function createUser (details) {
     return function (dispatch) {
         const url = process.env.REACT_APP_API_URL_DEV+'/api/user/create'
         return axios.post(url, {
-            user: {
+            // user: {
                 f_name: details.f_name,
                 l_name: details.l_name,
                 email: details.email,
                 password: details.password
-            }
+            // }
         })
         .then(response => {
             dispatch(createUserSuccess(response.data))
@@ -27,8 +22,9 @@ export function createUser (details) {
 }
 
 export function loginUser (details) {
+    console.log('login')
     return function (dispatch) {
-        dispatch(setCredentials(details));
+        // dispatch(setCredentials(details));
         var basicAuth = 'Basic ' + btoa(details.email + ':' + details.password)
         let url = process.env.REACT_APP_API_URL_DEV+'/api/auth/login'
         return axios.post(url, {email: details.email}, {
@@ -51,15 +47,16 @@ function receiveToken (data) {
     }
 }
 
-export function removeToken (username) {
+export function removeToken () {
     return function (dispatch) {
-        dispatch(logoutUser())
         localStorage.removeItem('token')
         localStorage.removeItem('id')
+        console.log(localStorage)
+        dispatch(logoutUser())
     }
 }
 
-export function fetchUser (id) {
+export function fetchUser () {
     return function (dispatch) {
         const token = localStorage.token
         const id = localStorage.id
@@ -78,49 +75,34 @@ export function fetchUser (id) {
     }
 }
 
-// export function getCredentials() {
-//     return state.credentials
-// }
-
 const userSlice = createSlice({
     name: 'user',
-    initialState: { loggedIn: false, credentials: {} },
+    initialState: { profile: {}, loggedIn: false },
     reducers: {
         createUserSuccess(state, action) {
             const { id } = action.payload
-            state.push({ id })
+            state.id = id
+            return state
         },
         createUserFailure(state, action) {
-            const { error } = action.payload
-            state.push({ error })
+            const error  = action.payload
+            return {...state, error}
         },
         fetchUserSuccess(state, action) {
-            const { user } = action.payload
-            state.push({ user, loggedIn: true })
+            const profile = action.payload
+            return {...state, profile, loggedIn: true }
         },
         fetchUserFailure(state, action) {
             const { error } = action.payload.response.statusText
-            state.push({ error })
+            return {...state, error}
         },
         loginUserFailure(state, action) {
             const { error } = action.payload.response.data.message
-            state.push({ error })
+            return {...state, error}
         },
         logoutUser(state, action) {
-            state = {loggedIn: false}
+            return { profile: {}, loggedIn: false }
         },
-        setCredentials(state, action) {
-            const { details } = action.payload
-            state.credentials.push(details)
-        },
-        getCredentials(state, action) {
-            return state.credentials
-        },
-        unsetCredentials(state, action) {
-            const { credentials } = state
-            state.credentials = {}
-            return credentials
-        }
     }
 })
 
@@ -131,9 +113,7 @@ export const {
     fetchUserFailure,
     loginUserFailure,
     logoutUser,
-    setCredentials,
-    getCredentials,
-    unsetCredentials
+    // lookupEmail
 } = userSlice.actions
 
 export default userSlice.reducer

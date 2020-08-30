@@ -1,29 +1,25 @@
 import React, { useState } from 'react'
+import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux'
 import { 
     loginUser,
     createUser,
-    setCredentials,
-    unsetCredentials,
-    lookupEmail
      } from 'features/user/userSlice'
 
 const mapDispatch = { 
     loginUser,
     createUser,
-    setCredentials,
-    unsetCredentials,
-    lookupEmail
 }
 
-const UserForm = ({ mapDispatch, ...props }) => {
-    const credentials = unsetCredentials()
-    const { createMode } = props
+const UserForm = ({ loginUser, createUser, ...props }) => {
 
     const [firstNameText, setfirstNameText] = useState('')
     const [lastNameText, setlastNameText] = useState('')
-    const [emailText, setEmailText] = useState(credentials.email||'')
-    const [passwordText, setPasswordText] = useState(credentials.password||'')
+    const [emailText, setEmailText] = useState('')
+    const [passwordText, setPasswordText] = useState('')
+    const [createMode, toggleCreateMode] = useState(false)
+
+    const history = useHistory()
 
     const onChangeFirstName = e => setfirstNameText(e.target.value)
     const onChangeLastName = e => setlastNameText(e.target.value)
@@ -32,12 +28,15 @@ const UserForm = ({ mapDispatch, ...props }) => {
 
     const onSubmitLogin = e => {
         e.preventDefault()
+        const credentials = {email: emailText, password: passwordText}
         if ( !emailText.trim() || !passwordText.trim() ) {
+            console.log('blank');
             return
         }
-        loginUser({email: emailText, password: passwordText})
-        // setEmailText('')
-        // setPasswordText('')
+        loginUser(credentials)
+        setEmailText('')
+        setPasswordText('')
+        history.push("/home");
     }
 
     const onSubmitCreate = e =>{
@@ -47,13 +46,27 @@ const UserForm = ({ mapDispatch, ...props }) => {
             return
         }
         createUser({
-            email: emailText, password: credentials.passwordText,
+            email: emailText, password: passwordText,
             f_name: firstNameText, l_name: lastNameText
         })
     }
 
     return (
         <div className="user-form">
+        {!createMode ?
+            <>
+                <button
+                    style={{display:"block"}}
+                    onClick={()=>toggleCreateMode(!createMode)}
+                >Create New User</button>
+            </>
+        :
+            <>
+                <button
+                    style={{display:"block"}}
+                    onClick={()=>toggleCreateMode(!createMode)}
+                >Login with Password</button>
+            </>}
         <form
             onSubmit={createMode ? onSubmitCreate : onSubmitLogin}
         >
@@ -63,13 +76,13 @@ const UserForm = ({ mapDispatch, ...props }) => {
             <input 
                 value={firstNameText} 
                 onChange={onChangeFirstName}
-                onBlur={() => setCredentials({f_name: firstNameText})}
+                // onBlur={() => setCredentials({f_name: firstNameText})}
             />
             <label>Last Name</label>
             <input
                 value={lastNameText}
                 onChange={onChangeLastName}
-                onBlur={() => setCredentials({l_name: lastNameText})}
+                // onBlur={() => setCredentials({l_name: lastNameText})}
             />
         </>
         : null}
@@ -77,18 +90,17 @@ const UserForm = ({ mapDispatch, ...props }) => {
             <input 
                 value={emailText}
                 onChange={onChangeEmail}
-                onBlur={() => {
-                    setCredentials({email: emailText})
-                    lookupEmail(emailText)
-                }}
+                // onBlur={() => {
+                //     setCredentials({email: emailText})
+                // }}
             />
             <label>Password</label>
             <input 
                 value={passwordText}
                 onChange={onChangePassword}
-                onBlur={() => setCredentials({password: passwordText})}
+                // onBlur={() => setCredentials({password: passwordText})}
             />
-            <button type="submit">Submit</button>
+            <input value="Login" type="submit"></input>
         </form>
         </div>
     )

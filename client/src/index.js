@@ -10,7 +10,7 @@ import { createLogger } from 'redux-logger'
 import rootReducer from './reducers'
 
 const logger = createLogger();
-const middleware = [...getDefaultMiddleware(),logger];
+const middleware = [...getDefaultMiddleware({serializableCheck: false}),logger];
 
 const preloadedState = {
   todos: [
