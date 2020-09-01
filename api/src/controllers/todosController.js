@@ -11,9 +11,9 @@ exports.show = (req, res) => {
 
 exports.create = function(req, res) {
     let params = req.body;
-    console.log('todo params cr', params);
+    console.log('todo params cr', params, 'req.params.user', req.params.user);
     let todo = new Todo(params);
-    User.findByIdAndUpdate(params.user.id, {$push: {todos: todo}}, {new: true}, (err,doc)=>{
+    User.findByIdAndUpdate(req.params.user.id, {$push: {todos: todo}}, {new: true}, (err,doc)=>{
         if (err) {
             res.send(err);
         } else {
