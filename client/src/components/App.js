@@ -21,7 +21,6 @@ class App extends Component {
 
 	initialFetch () {
 		this.props.dispatch(fetchUser())
-		console.log(JSON.stringify(this.props))
 	}
 
 	componentDidMount() {
@@ -35,12 +34,18 @@ class App extends Component {
 					<Route path="/login" render={()=>
 						this.props.user.loggedIn ?
 						(<Redirect to="/home" />) :
-						(<UserForm/>)
+						(<UserForm mode={false}/>)
 					}>
 					</Route>
 					<Route path="/home">
 						{ this.props.user.loggedIn ?
 						<Home /> :
+						<Redirect to="/login" />
+						}
+					</Route>
+					<Route path="/settings">
+						{ this.props.user.loggedIn ?
+						<UserForm mode={true}/> :
 						<Redirect to="/login" />
 						}
 					</Route>

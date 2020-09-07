@@ -33,7 +33,7 @@ export function updateTodo (todo, override) {
     return function (dispatch) {
         const updatedTodo = { ...todo, ...override }
         const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+todo.created_by+'/todos/'+todo._id+'/update'
-        return axios.post(url, updatedTodo, headers() )
+        return axios.put(url, updatedTodo, headers() )
         .then(response => {
             dispatch(updateTodoSuccess(response.data))
         })

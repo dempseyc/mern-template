@@ -4,6 +4,16 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { loadTodos } from '../todos/todosSlice'
 
+const headers = () => { return (
+    {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.token}`
+        }
+    } )
+}
+
 export function createUser (details) {
     return function (dispatch) {
         const url = process.env.REACT_APP_API_URL_DEV+'/api/user/create'
@@ -23,10 +33,22 @@ export function createUser (details) {
     }
 }
 
+export function updateUser (details) {
+    return function (dispatch) {
+        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+localStorage.id+'/update'
+        const loginDetails = {email: details.email, password: details.newPassword}
+        return axios.put(url, details, headers())
+        .then(response => {
+            dispatch(updateUserSuccess(response.data))
+            dispatch(loginUser(loginDetails))
+        })
+        .catch(error => dispatch(updateUserFailure(error)))
+    }
+}
+
 export function loginUser (details) {
     console.log('login')
     return function (dispatch) {
-        // dispatch(setCredentials(details));
         var basicAuth = 'Basic ' + btoa(details.email + ':' + details.password)
         let url = process.env.REACT_APP_API_URL_DEV+'/api/auth/login'
         return axios.post(url, {email: details.email}, {
@@ -65,13 +87,7 @@ export function fetchUser () {
         const id = localStorage.id
         const url = `${process.env.REACT_APP_API_URL_DEV}/api/user/${id}`
         if (token) {
-            return axios.get(url, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                }
-            })
+            return axios.get(url, headers())
             .then((response) => {
                 dispatch(loadTodos(response.data.todos));
                 dispatch(fetchUserSuccess(response.data));
@@ -93,6 +109,13 @@ const userSlice = createSlice({
             return state
         },
         createUserFailure(state, action) {
+            const error  = action.payload
+            return {...state, error}
+        },
+        updateUserSuccess(state, action) {
+            return action.payload
+        },
+        updateUserFailure(state, action) {
             const error  = action.payload
             return {...state, error}
         },
@@ -119,6 +142,8 @@ const userSlice = createSlice({
 export const { 
     createUserSuccess,
     createUserFailure,
+    updateUserSuccess,
+    updateUserFailure,
     fetchUserSuccess,
     fetchUserFailure,
     loginUserFailure,

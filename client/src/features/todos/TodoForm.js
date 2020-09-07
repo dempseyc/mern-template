@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { createTodo } from 'features/todos/todosSlice'
 
-const mapDispatch = { createTodo }
+const mapDispatchToProps = { createTodo }
 const mapStateToProps = state => ({
   ...state
 })
 
 const TodoForm = ({ createTodo, ...props }) => {
-  console.log(props);
+  // console.log(props);
   const [todoText, setTodoText] = useState('')
 
   const onChange = e => setTodoText(e.target.value)
@@ -34,5 +34,5 @@ const TodoForm = ({ createTodo, ...props }) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatch
+  mapDispatchToProps
 )(TodoForm)
