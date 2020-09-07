@@ -12,25 +12,25 @@ import rootReducer from './reducers'
 const logger = createLogger();
 const middleware = [...getDefaultMiddleware({serializableCheck: false}),logger];
 
-const preloadedState = {
-  todos: [
-    {
-      text: 'Eat food',
-      completed: true,
-      id: 0
-    },
-    {
-      text: 'Exercise',
-      completed: false,
-      id: 1
-    }
-  ],
-}
+// const preloadedState = {
+//   todos: [
+//     {
+//       text: 'Eat food',
+//       completed: true,
+//       id: 0
+//     },
+//     {
+//       text: 'Exercise',
+//       completed: false,
+//       id: 1
+//     }
+//   ],
+// }
 
 const store = configureStore({
     reducer: rootReducer,
     middleware,
-    preloadedState,
+    // preloadedState,
 });
 
 const Root = () => (

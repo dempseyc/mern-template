@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { addTodo } from 'features/todos/todosSlice'
+import { createTodo } from 'features/todos/todosSlice'
 
-const mapDispatch = { addTodo }
+const mapDispatch = { createTodo }
+const mapStateToProps = state => ({
+  ...state
+})
 
-const TodoForm = ({ addTodo, ...props }) => {
+const TodoForm = ({ createTodo, ...props }) => {
+  console.log(props);
   const [todoText, setTodoText] = useState('')
 
   const onChange = e => setTodoText(e.target.value)
@@ -17,7 +21,7 @@ const TodoForm = ({ addTodo, ...props }) => {
           if (!todoText.trim()) {
             return
           }
-          addTodo(todoText)
+          createTodo({text:todoText})
           setTodoText('')
         }}
       >
@@ -29,6 +33,6 @@ const TodoForm = ({ addTodo, ...props }) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatch
 )(TodoForm)

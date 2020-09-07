@@ -4,11 +4,13 @@ const saltRounds = 10;
 const User = require('../models/User');
 
 exports.show = function(req,res) {
-    if (req.user) {
-        User.findById(req.user.id, function(error,response) {
+    console.log(res.locals.user)
+    if (res.locals.user) {
+        User.findById(res.locals.user._id, function(error,response) {
             if (error) {
                 return res.send(error);
             } else {
+                response.pw_hash = 'secured';
                 return res.json(response);
             }
         });

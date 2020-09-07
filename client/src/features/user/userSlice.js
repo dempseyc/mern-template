@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import { createSlice } from '@reduxjs/toolkit'
 
+import { loadTodos } from '../todos/todosSlice'
+
 export function createUser (details) {
     return function (dispatch) {
         const url = process.env.REACT_APP_API_URL_DEV+'/api/user/create'
@@ -57,6 +59,7 @@ export function removeToken () {
 }
 
 export function fetchUser () {
+    // console.log('fetchuser')
     return function (dispatch) {
         const token = localStorage.token
         const id = localStorage.id
@@ -69,8 +72,13 @@ export function fetchUser () {
                   'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => dispatch(fetchUserSuccess(response.data)))
+            .then((response) => {
+                dispatch(loadTodos(response.data.todos));
+                dispatch(fetchUserSuccess(response.data));
+            })
             .catch(error => dispatch(fetchUserFailure(error)))
+        } else {
+            console.log('no token')
         }
     }
 }
@@ -89,7 +97,9 @@ const userSlice = createSlice({
             return {...state, error}
         },
         fetchUserSuccess(state, action) {
-            const profile = action.payload
+            let profile = action.payload
+            // pick with destructuring IIFE
+            profile = (({created_on,email,f_name,l_name,recently_active_on}) => ({created_on,email,f_name,l_name,recently_active_on}))(profile)
             return {...state, profile, loggedIn: true }
         },
         fetchUserFailure(state, action) {

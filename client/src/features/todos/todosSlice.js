@@ -2,25 +2,54 @@ import axios from 'axios'
 
 import { createSlice } from '@reduxjs/toolkit'
 
-// need to get todos initial state from fetch users
+const headers = ()=> { return (
+    {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.token}`
+        }
+    } )
+}
+
 export function createTodo (details) {
+
     return function (dispatch) {
-        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+user_id+'/todos/create'
+        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+localStorage.id+'/todos/create'
         return axios.post(url, {
-// {
-//     created_on: {type: Date, default: Date.now },
-//     time_zone: String,
-//     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
-//     text: String,
-//     completed: Boolean,
-//     completed_on: {type: Date, default: Date.now}
-// }
-        })
+            created_by: localStorage.id,
+            text: details.text,
+            completed: false,
+        }, headers() )
         .then(response => {
             dispatch(createTodoSuccess(response.data))
-            dispatch(addTodo(details))
         })
-        .catch(error => dispatch(createUserFailure(error)))
+        .catch(error => dispatch(createTodoFailure(error)))
+    }
+}
+
+export function updateTodo (todo, override) {
+    console.log('update todo', todo)
+    return function (dispatch) {
+        const updatedTodo = { ...todo, ...override }
+        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+todo.created_by+'/todos/'+todo._id+'/update'
+        return axios.post(url, updatedTodo, headers() )
+        .then(response => {
+            dispatch(updateTodoSuccess(response.data))
+        })
+        .catch(error => dispatch(updateTodoFailure(error)))
+    }
+}
+
+export function deleteTodo (todo) {
+    // console.log('delete todo', todo)
+    return function (dispatch) {
+        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+todo.created_by+'/todos/'+todo._id+'/delete'
+        return axios.post(url, todo, headers() )
+        .then(response => {
+            dispatch(deleteTodoSuccess(response.data))
+        })
+        .catch(error => dispatch(deleteTodoFailure(error)))
     }
 }
 
@@ -28,38 +57,54 @@ const todosSlice = createSlice({
     name: 'todos',
     initialState: [],
     reducers: {
-        myTodos: {
-            reducer(state, action) {
-                const { todos } = action.payload
-                state = todos
-            }
+        loadTodos(state,action) {
+            state = action.payload
+            return state
         },
-        addTodo: {
-            reducer : (state, action) => {
-                const { text } = action.payload
-                // won't work with del todos, need global incrementor
-                const id = state.length
-                state.push({ id, text, completed: false })
-            },
-            prepare: (text) => {
-                return { payload: { text } }
-            }
+        createTodoSuccess(state,action) {
+            const todos = action.payload
+            console.log('todos', todos)
+            state = todos
+            return state
         },
-        toggleTodo:  {
-            reducer(state, action) {
-                const todo = state.find(todo => todo.id === action.payload)
-                if (todo) {
-                    todo.completed = !todo.completed
-                }
-            }
-        }
+        createTodoFailure(state,action) {
+            const error  = action.payload
+            state.push(error)
+            return state
+        },
+        updateTodoSuccess(state,action) {
+            console.log('ud success',action.payload)
+            state = action.payload
+            return state
+        },
+        updateTodoFailure(state,action) {
+            const { error } = action.payload.response.statusText
+            state.push(error)
+            return state
+        },
+        deleteTodoSuccess(state,action) {
+            console.log('del success',action.payload)
+            state = action.payload
+            return state
+        },
+        deleteTodoFailure(state,action) {
+            const { error } = action.payload.response.statusText
+            state.push(error)
+            return state
+        },
+        
     }
 })
 
-export const { 
-    myTodos,
-    addTodo,
-    toggleTodo 
+export const {
+    loadTodos,
+    createTodoSuccess,
+    createTodoFailure,
+    updateTodoSuccess,
+    updateTodoFailure,
+    deleteTodoSuccess,
+    deleteTodoFailure,
+    // toggleTodo,
 } = todosSlice.actions
 
 export default todosSlice.reducer
