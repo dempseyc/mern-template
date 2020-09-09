@@ -34,7 +34,7 @@ class App extends Component {
 					<Route path="/login" render={()=>
 						this.props.user.loggedIn ?
 						(<Redirect to="/home" />) :
-						(<UserForm mode={false}/>)
+						(<UserForm cMode={false}/>)
 					}>
 					</Route>
 					<Route path="/home">
@@ -45,7 +45,7 @@ class App extends Component {
 					</Route>
 					<Route path="/settings">
 						{ this.props.user.loggedIn ?
-						<UserForm mode={true}/> :
+						<UserForm cMode={true}/> :
 						<Redirect to="/login" />
 						}
 					</Route>

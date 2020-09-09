@@ -3,7 +3,9 @@ import { useHistory } from "react-router-dom"
 import { connect } from 'react-redux'
 import { 
     loginUser,
-    createUser, updateUser
+    createUser,
+    updateUser,
+    deleteUser
      } from 'features/user/userSlice'
 
 const mapStateToProps = state => ({
@@ -12,22 +14,67 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { 
     loginUser,
-    createUser, updateUser
+    createUser,
+    updateUser,
+    deleteUser
 }
 
-const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
+const UserForm = ({ cMode, loginUser, createUser, updateUser, deleteUser, ...props }) => {
 
-    if (props.user.loggedIn) {
-        var {f_name,l_name,email} = props.user.profile
+    console.log(props)
+    const loggedIn = props.user.loggedIn
+
+    let view = {}
+
+    const templating = {
+        editView: {
+            modeButton: false,
+            headingText: "Edit User",
+            submitValue: "Submit Changes",
+            submitFn: onSubmitUpdate,
+            showProfileFeilds: true,
+            showNPField: true,
+            showDeleteButton: true
+        },
+        createView: {
+            modeButton: "switch to login",
+            headingText: "New User",
+            submitValue: "Submit",
+            submitFn: onSubmitCreate,
+            showProfileFeilds: true,
+            showNPField: false,
+            showDeleteButton: false
+        },
+        loginView: {
+            modeButton:  "switch to new user",
+            headingText: "Login User",
+            submitValue: "Submit",
+            submitFn: onSubmitLogin,
+            showProfileFeilds: false,
+            showNPField: false,
+            showDeleteButton: false
+        }
     }
 
+    const [createMode, toggleCreateMode] = useState(props.cMode)
+
+    if (loggedIn) {
+        var {f_name,l_name,email} = props.user.profile
+        view = templating.editView
+    } else {
+        if(createMode) {
+            view = templating.createView
+        } else {
+            view = templating.loginView
+        }
+    }
 
     const [firstNameText, setfirstNameText] = useState(f_name||'')
     const [lastNameText, setlastNameText] = useState(l_name||'')
     const [emailText, setEmailText] = useState(email||'')
     const [passwordText, setPasswordText] = useState('')
     const [newPasswordText, setNewPasswordText] = useState('')
-    const [createMode, toggleCreateMode] = useState(props.mode)
+    const [errorsTexts, setNewErrorsTexts] = useState([])
 
     const history = useHistory()
 
@@ -37,7 +84,7 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
     const onChangePassword = e => setPasswordText(e.target.value)
     const onChangeNewPassword = e => setNewPasswordText(e.target.value)
 
-    const onSubmitLogin = e => {
+    function onSubmitLogin (e) {
         e.preventDefault()
         const credentials = {email: emailText, password: passwordText}
         if ( !emailText.trim() || !passwordText.trim() ) {
@@ -51,13 +98,10 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
     }
 
     const heading = (
-        (props.user.loggedIn) ? <h1>Edit User</h1> : <h1>Create New User</h1>
-    )
-    const submitValue = (
-        (props.user.loggedIn) ? "Update" : "Create"
+        <h1>{view.headingText}</h1>
     )
 
-    const onSubmitCreate = e =>{
+    function onSubmitCreate (e) {
         e.preventDefault()
         if ( !emailText.trim() || !passwordText.trim() ||
         !firstNameText.trim() || !lastNameText.trim() ) {
@@ -69,7 +113,7 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
         })
     }
 
-    const onSubmitUpdate = e =>{
+    function onSubmitUpdate (e) {
         e.preventDefault()
         if ( !emailText.trim() || !passwordText.trim() || !newPasswordText.trim() ||
         !firstNameText.trim() || !lastNameText.trim() ) {
@@ -81,21 +125,27 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
         })
     }
 
-    const onSubmitUser = e =>{
-        (props.user.loggedIn) ? onSubmitUpdate(e) : onSubmitCreate(e)
+    function onSubmitDelete (e) {
+        if (passwordText.trim()) {
+            deleteUser()
+        } else {
+            let newErrorsTexts = [...errorsTexts]
+            newErrorsTexts.push("enter password to delete user")
+            setNewErrorsTexts(newErrorsTexts)
+        }
     }
 
-    const modeButton = (
+    const modeButton = (view.modeButton) ? (
         <>
             <button
                 style={{display:"block"}}
                 onClick={()=>toggleCreateMode(!createMode)}
-            >Create New User</button>
+            >{view.modeButton}</button>
         </>
-    )
+    ): null;
 
     const newPasswordField = (
-        (props.user.loggedIn) ? [<label key="newpass-label">New Password</label>,
+        (view.showNPField) ? [<label key="newpass-label">New Password</label>,
             <input 
                 key="newpass-input"
                 value={newPasswordText}
@@ -105,22 +155,20 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
             : null
     )
 
+    const deleteButton = (
+        (view.showDeleteButton) ? (
+            <button onClick={()=>onSubmitDelete()}>DELETE USER</button>
+        ) : null
+    )
+
     return (
         <div className="user-form">
         {heading}
-        {!createMode ?
-            modeButton
-        :
-            <>
-                <button
-                    style={{display:"block"}}
-                    onClick={()=>toggleCreateMode(!createMode)}
-                >Login with Password</button>
-            </>}
+        {modeButton}
         <form
-            onSubmit={createMode ? onSubmitUser : onSubmitLogin}
+            onSubmit={view.submitFn}
         >
-        {createMode ?
+        {view.showProfileFeilds ?
         <>
             <label>First Name</label>
             <input 
@@ -151,7 +199,9 @@ const UserForm = ({ loginUser, createUser, updateUser, ...props }) => {
                 // onBlur={() => setCredentials({password: passwordText})}
             />
             {newPasswordField}
-            <input value={submitValue} type="submit"></input>
+            <input value={view.submitValue} type="submit"></input>
+            {deleteButton}
+            {errorsTexts.map((str,i)=>(<p key={i}>{str}</p>))}
         </form>
         </div>
     )

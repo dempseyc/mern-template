@@ -38,8 +38,7 @@ app.use('/api/auth/login', function(req,res,next) {
     const auth = req.headers.auth.split(' ')[1];
     try {
         const details = Buffer.from(auth, 'base64').toString().split(':');
-        req.details = details;
-        console.log('req.details', req.details);
+        res.locals.details = details;
         next();
     } catch(error) {
         console.log('auth with details error')
@@ -48,10 +47,10 @@ app.use('/api/auth/login', function(req,res,next) {
 });
 
 app.post('/api/auth/login', function(req,res){
-    if (req.details) {
-        User.findOne({email: req.details[0].toString()}, function (err,user) {
+    if (res.locals.details) {
+        User.findOne({email: res.locals.details[0].toString()}, function (err,user) {
             if(user) {
-                bcrypt.compare(req.details[1], user.pw_hash.toString(), (err, isMatch) => {
+                bcrypt.compare(res.locals.details[1], user.pw_hash.toString(), (err, isMatch) => {
                     if (err) {
                         throw err;
                     } else if (isMatch) {
@@ -82,6 +81,7 @@ app.post('/api/auth/login', function(req,res){
 app.use('/api/user', tokenCheck);
 app.use('/api/user', userRouter);
 app.use('/api/user/:id/todos', todoRouter);
+app.use('/api/user/:id/update', pwCheck);
 
 // check for token and assign to user
 function tokenCheck (req,res,next) {
@@ -89,9 +89,9 @@ function tokenCheck (req,res,next) {
         const token = req.headers.authorization.split(' ')[1];
         jwt.verify(token, process.env.TOKEN_KEY, function (err, payload) {
             if (payload) {
-                console.log('tokencheck', payload.user_id);
                 User.findById(payload.user_id).then(
                     (doc) => {
+                        console.log('token ok')
                         res.locals.user = doc;
                         next();
                     }
@@ -104,6 +104,23 @@ function tokenCheck (req,res,next) {
     } catch(error) {
         console.log('catch in check for token');
         next();
+    }
+}
+
+function pwCheck (req,res,next) {
+    try {
+        bcrypt.compare(req.body.password, res.locals.user.pw_hash.toString(), (err, isMatch) => {
+            if (err) {
+                throw err;
+            } else if (isMatch) {
+                next();
+            } else {
+                res.status(401).json({message: 'Invalid Password/Username'});
+            }
+        })
+    } catch(error) {
+        console.log('catch in check pw')
+        res.status(400).json({message: 'Editing Wrong User'});
     }
 }
 

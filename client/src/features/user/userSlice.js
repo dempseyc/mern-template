@@ -46,6 +46,17 @@ export function updateUser (details) {
     }
 }
 
+export function deleteUser () {
+    return function (dispatch) {
+        const url = process.env.REACT_APP_API_URL_DEV+'/api/user/'+localStorage.id+'/delete'
+        return axios.post(url,{},headers())
+        .then(response => {
+            dispatch(deleteUserSuccess(response.data))
+            dispatch(removeToken())
+        })
+    }
+}
+
 export function loginUser (details) {
     console.log('login')
     return function (dispatch) {
@@ -75,7 +86,6 @@ export function removeToken () {
     return function (dispatch) {
         localStorage.removeItem('token')
         localStorage.removeItem('id')
-        console.log(localStorage)
         dispatch(logoutUser())
     }
 }
@@ -119,6 +129,13 @@ const userSlice = createSlice({
             const error  = action.payload
             return {...state, error}
         },
+        deleteUserSuccess(state, action) {
+            return action.payload
+        },
+        deleteUserFailure(state, action) {
+            const error  = action.payload
+            return {...state, error}
+        },
         fetchUserSuccess(state, action) {
             let profile = action.payload
             // pick with destructuring IIFE
@@ -144,6 +161,8 @@ export const {
     createUserFailure,
     updateUserSuccess,
     updateUserFailure,
+    deleteUserSuccess,
+    deleteUserFailure,
     fetchUserSuccess,
     fetchUserFailure,
     loginUserFailure,
