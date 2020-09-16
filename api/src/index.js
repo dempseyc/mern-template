@@ -124,7 +124,7 @@ function pwCheck (req,res,next) {
     }
 }
 
-// default route blank
+// default route blank 
 // app.get('/', function (req, res) {
 //     logger.debug('Debug statement');
 //     logger.info('Info statement');

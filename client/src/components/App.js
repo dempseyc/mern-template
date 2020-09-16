@@ -9,11 +9,6 @@ import { connect } from 'react-redux'
 import UserForm from 'features/user/UserForm'
 import Home from './Home'
 
-// import LogoutButton from 'features/user/LogoutButton'
-// import TodoForm from 'features/todos/TodoForm'
-// import VisibleTodoList from 'features/todos/VisibleTodoList'
-// import Footer from 'features/filters/Footer'
-
 import { fetchUser } from '../features/user/userSlice'
 import { myTodos } from '../features/todos/todosSlice'
 
