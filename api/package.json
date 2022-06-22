@@ -6,7 +6,7 @@
   "author": "Craig Dempsey",
   "license": "ISC",
   "devDependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.2",
     "cors": "^2.8.5",
     "nodemon": "^1.19.4"
   },
