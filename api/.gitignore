@@ -1,7 +1,9 @@
 scrape_note.html
 
-/db/.env
-/db/seed_db.js
+/node_modules
+
+src/db/.env
+src/db/seed_db.js
 
 # misc
 .DS_Store
