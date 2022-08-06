@@ -1,7 +1,8 @@
 require('dotenv').config();
 
 const app = require('express')();
-const server = require('http').createServer(app)
+const server = require('http').createServer(app);
+
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -16,10 +17,33 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const usersRouter = require('./routes/usersRouter');
+const authRouter = require('./routes/authRouter');
 
 const tropesRouter = require('./routes/tropesRouter');
 
 const User = require('./models/User');
+const FacebookTokenStrategy = require('passport-facebook-token');
+const passport = require('passport');
+// required below ('express-session');
+
+passport.use(new FacebookTokenStrategy({
+    clientID: process.env.FB_ID,
+    clientSecret: process.env.FB_SECRET,
+}, function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ "facebook_id": profile.id }, function (err, user) {
+        console.log('user', user, err);
+        return done(error,user);
+    });
+}
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+  
+passport.deserializeUser(function(id, done) {
+    done(null, id);
+});
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,7 +59,11 @@ app.use(morgan('dev', {
     }, stream: process.stdout
 }));
 
-app.use('/api/auth/login', function(req,res,next) {
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+const extractDetails = function(req,res,next) {
     const auth = req.headers.authorization.split(' ')[1];
     try {
         const details = Buffer.from(auth, 'base64').toString().split(':');
@@ -43,44 +71,16 @@ app.use('/api/auth/login', function(req,res,next) {
         next();
     } catch(error) {
         console.log('auth with details error')
-        next();
+        return res.status(401).json({message: 'Invalid Password/Email -1'});
     }
-});
+};
 
-app.post('/api/auth/login', function(req,res){
-    if (res.locals.details) {
-        User.findOne({email: res.locals.details[0].toString()}, function (err,user) {
-            if (err) {
-                return res.status(401).json({message: 'Invalid Password/Email 0'});
-            }
-            else if (user) {
-                console.log('user', user);
-                bcrypt.compare(res.locals.details[1], user.pw_hash.toString(), (err, isMatch) => {
-                    if (err) {
-                        return res.status(401).json({message: 'Invalid Password/Email 1'});
-                    } else if (isMatch) {
-                        var token = jwt.sign({user_id: user._id}, process.env.TOKEN_KEY);
-                        return res.status(200).json({
-                            user_id: user._id,
-                            email: user.email,
-                            username: user.username,
-                            token: token,
-                        });
-                    } else {
-                        return res.status(401).json({message: 'Invalid Password/Email 2'});
-                    }
-                });
-            } else { 
-                return res.status(401).json({message: 'Invalid Password/Email 3'});
-            }
-        })
-        // .catch((err) => {
-        //     return res.status(400).json({message:'Invalid Request', err: err});
-        // })
-    } else {
-        return res.status(400).json({message:'No Auth Details'});
-    }
+app.use('/api/auth/login', extractDetails);
+app.use('/api/auth/fb', passport.authenticate('facebook-token'), function(error, user) {
+    console.log('hit /fb route', user);
+    //respond or next here
 });
+app.use('/api/auth', authRouter);
 
 ////////////////////////////////////////////// SOCKET STUFF
 
@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
   socket.broadcast.emit("greeting",socket.id)
   console.log("greeting",socket.id)
   socket.on('subscribeToTimer', (interval) => {
-    console.log('socket is subscribing to timer with interval ', interval);
+    console.log("socket is subscribing to timer with interval ", interval);
     setInterval(() => {
       socket.emit('timer', new Date());
     }, interval);
@@ -130,16 +130,7 @@ app.use('/api/users/:id/update', pwCheck);
 app.use('/api/tropes', tokenCheck);
 app.use('/api/tropes', tropesRouter);
 
-// app.use('/api/recipient', tokenCheck);
-// app.use('/api/recipient', recipientRouter);
 
-// app.use('/api/progclass', tokenCheck);
-// app.use('/api/progclass', progClassRouter);
-
-// app.use('/api/program', tokenCheck);
-// app.use('/api/program', programRouter);
-
-// check for token and assign to user
 function tokenCheck (req,res,next) {
     console.log('inside tokencheck');
     try {

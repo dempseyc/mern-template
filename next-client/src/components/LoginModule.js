@@ -1,11 +1,7 @@
 import {useState} from 'react'
-import {useStoreActions, useStoreState} from 'easy-peasy'
-
-import Loading from './Loading'
+// import Loading from './Loading'
 import LoginChoices from './LoginChoices'
 import CarouUserForm from './CarouUserForm'
-
-import {API_URL} from './API_CONSTANTS'
 
 const EmailLogin = () => {
     return (

@@ -4,12 +4,7 @@ const cors = require('cors')
 
 const dbURL = process.env.DB_URL;
 
-db.connect(dbURL, {
-    // useFindAndModify: false, 
-    // useNewUrlParser: true, 
-    // useUnifiedTopology: true,
-    // useCreateIndex: true
-    });
+db.connect(dbURL, {});
 
 const async = require('async')
 

@@ -1,11 +1,9 @@
 import { createStore, action, thunk } from 'easy-peasy'
 import axios from 'axios'
 
-import { API_URL} from './API_CONSTANTS'
-
-import { API2_URL} from './API_CONSTANTS'
-import { API2_KEY} from './API_CONSTANTS'
-
+import { API_URL} from './src/API_CONSTANTS'
+import { API2_URL} from './src/API_CONSTANTS'
+import { API2_KEY} from './src/API_CONSTANTS'
 
 const users = {
   ready: false,

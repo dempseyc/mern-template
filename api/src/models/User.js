@@ -1,16 +1,20 @@
 const mongoose = require('mongoose');
+const findOrCreate = require('mongoose-findorcreate');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
     created_on: {type: Date, default: Date.now },
-    username: {type: String, required: true, max: 100},
-    email: {type: String, required: true, max: 100, unique: true},
-    pw_hash: {type: String, required: true, max: 100},
+    username: {type: String, max: 100},
+    facebook_id: {type: String},
+    email: {type: String, max: 100, unique: true},
+    pw_hash: {type: String , max: 100},
     recently_active_on: {type: Date, default: Date.now },
     admin: Boolean,
     data: {},
 });
+
+UserSchema.plugin(findOrCreate);
 
 function _capitalize (str) {
     const lower = str.toLowerCase();
