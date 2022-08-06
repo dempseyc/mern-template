@@ -1,9 +1,30 @@
-import { createStore, action, thunk } from 'easy-peasy'
+import { createStore, action, actionOn, thunk } from 'easy-peasy'
+import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import axios from 'axios'
 
 import { API_URL} from './src/API_CONSTANTS'
 import { API2_URL} from './src/API_CONSTANTS'
 import { API2_KEY} from './src/API_CONSTANTS'
+
+// const SSR_HYDRATE = actionOn(
+//   () => HYDRATE,
+//   (state,target) => {
+//     state.count = target.payload.count;
+//   }
+// )
+
+// const reducer = (state, action) => {
+//   if (action.type === HYDRATE) {
+//     const nextState = {
+//       ...state, // use previous state
+//       ...action.payload, // apply delta from hydration
+//     };
+//     if (state.count) nextState.count = state.count; // preserve count value on client side navigation
+//     return nextState;
+//   } else {
+//     return combinedReducer(state, action);
+//   }
+// };
 
 const users = {
   ready: false,
@@ -19,7 +40,7 @@ const users = {
   setUser: action((state,payload) => {state.user = payload}),
   setReady: action((state,payload) => {state.ready = payload}),
   setCredentials: action((state,payload) => {state.credentials = payload}),
-
+  setError: action((state,payload) => {state.error = payload}),
   setUsersList: action((state,payload) => {state.usersList = payload}),
 
   // fetchUserList: thunk(async (actions) => {
@@ -167,4 +188,10 @@ const store = {
   users,
 }
 
-export default createStore(store)
+const initStore = () => {
+  return createStore(store);
+}
+
+const wrapper = createWrapper(initStore);
+
+export default wrapper
