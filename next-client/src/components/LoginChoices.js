@@ -1,9 +1,8 @@
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Box from '@mui/material/Box';
 
 const LoginChoices = (props) => {
-    const {setMode, authFB, authLogoutFB} = props;
+    const {setMode} = props;
     const buttons = [
         <Button 
             key="login-choice-email"
@@ -13,14 +12,6 @@ const LoginChoices = (props) => {
             key="login-choice-create"
             onClick={()=>setMode('create')}
             >New user with email</Button>,
-          <Button 
-            key="login-choice-fb"
-            onClick={authFB}
-            >Sign in with Facebook</Button>,
-            <Button 
-            key="logout-choice-fb"
-            onClick={authLogoutFB}
-            >Log out Facebook</Button>,
       ];
   return (
       <ButtonGroup

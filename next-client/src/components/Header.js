@@ -1,4 +1,4 @@
-const zeroAlpha1px = '000000-0.png';  
+const zeroAlpha1px = '/000000-0.png';  
 
 const Header = () => {
     return (

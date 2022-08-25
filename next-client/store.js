@@ -2,9 +2,9 @@ import { createStore, action, actionOn, thunk } from 'easy-peasy'
 import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import axios from 'axios'
 
-import { API_URL} from './src/API_CONSTANTS'
-import { API2_URL} from './src/API_CONSTANTS'
-import { API2_KEY} from './src/API_CONSTANTS'
+import { API_URL} from './APP_CONSTANTS'
+import { API2_URL} from './APP_CONSTANTS'
+import { API2_KEY} from './APP_CONSTANTS'
 
 // const SSR_HYDRATE = actionOn(
 //   () => HYDRATE,
@@ -25,6 +25,10 @@ import { API2_KEY} from './src/API_CONSTANTS'
 //     return combinedReducer(state, action);
 //   }
 // };
+
+const config = {
+  HOME_VIEWS: ['main','chat','user','more']
+}
 
 const users = {
   ready: false,
@@ -182,8 +186,9 @@ const movies = {
 }
 
 const store = {
-  currPage: 2,
-  setCurrPage: action((state, payload) => { state.currPage = payload.index }),
+  config,
+  currView: 2,
+  setCurrView: action((state, payload) => { state.currView = payload.index }),
   movies,
   users,
 }

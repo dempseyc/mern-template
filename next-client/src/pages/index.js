@@ -1,52 +1,34 @@
 import SwipeViews from '../components/SwipeViews'
-import Header from '../components/Header'
-import NavBar from '../components/NavBar'
-import SwiperPage from '../components/SwiperPage'
-
+import SwiperView from '../components/SwiperView'
 import { useStoreState, useStoreActions } from 'easy-peasy'
-
-const pageColors = ['#808080','#00aaaa','#3a99a7'];
-const pageNames = ['Game','Chat','User'];
 
 const App = () => {
 	console.log('app render');
-	const currPage = useStoreState(state => state.currPage);
-	const setCurrPage = useStoreActions(actions => actions.setCurrPage);
+	const HOME_VIEWS = useStoreState(state => state.config.HOME_VIEWS);
+	const currView = useStoreState(state => state.currView);
+	const setCurrView = useStoreActions(actions => actions.setCurrView);
 
-	let swiperPages = [];
-
-	const buildSwiperPages = () => {
-		const pages = pageColors.map((c,i) => {
-			let pageName = pageNames[i];
+	const buildSwiperViews = () => {
+		const views = HOME_VIEWS.map((view,i) => {
+			let viewName = view;
 			return (
-			<SwiperPage
+			<SwiperView
 				key={i}
 				pageIdx={i}
-				bgColor={c}
-				pageName={pageName}
+				viewName={viewName}
 			/> )
 		});
-		return pages;
+		return views;
 	}
-
-	// useEffect(() => {
-	// 	swiperPages = buildSwiperPages();
-	// }, [])
 		
 	return (
-		<div className="App">
-		<Header />
+		<>
 		<SwipeViews
-			index={currPage}
-			setIndex={(index) => setCurrPage({index:index, source:'swipeable_views'})}
-			children={ buildSwiperPages() }
-		/>
-		<NavBar
-			pageNames={pageNames}
-			pageColors={pageColors}
-			openModalButtonType={pageNames[currPage]}
-		/>		
-		</div>
+			index={currView}
+			setIndex={(index) => setCurrView({index:index, source:'swipeable_views'})}
+			children={ buildSwiperViews() }
+		/>	
+		</>
 	)
 }
 

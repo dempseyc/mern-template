@@ -19,8 +19,6 @@ const EmailCreate = () => {
     )
 }
 
-
-
 const messageList = (messages) => {
     const ms = messages.map((m,i) => {
         return (
@@ -32,32 +30,25 @@ const messageList = (messages) => {
     )
 }
 
-
 const LoginModule = () => {
-    // 
-    // loginUser 
-    // createUser 
-    // subscribe 
-    // unsubscribe
-    // const authFB = useStoreActions(actions => actions.users.authFB);
-    // const authFB = useStoreActions(actions => actions.users.authFB);
-    const authFB = () => {
-        window.FB.login(response => {
-            if (response.status === "connected") {
-                window.FB.api('/me', (response) => {
-                    console.log(response);
-                    // hit a useraction
-                })
-            }
-            console.log(response)
-        })
-    }
 
-    const authLogoutFB = () => {
-        window.FB.logout(response => {
-            console.log(response)
-        })
-    }
+    // const authFB = () => {
+    //     window.FB.login(response => {
+    //         if (response.status === "connected") {
+    //             window.FB.api('/me', (response) => {
+    //                 console.log(response);
+    //                 // hit a useraction
+    //             })
+    //         }
+    //         console.log(response)
+    //     })
+    // }
+
+    // const authLogoutFB = () => {
+    //     window.FB.logout(response => {
+    //         console.log(response)
+    //     })
+    // }
 
     const ready = false;
 
@@ -66,7 +57,11 @@ const LoginModule = () => {
     const messages = ['no message'];
 
     const modePattern = {
-        init: <LoginChoices setMode={setMode} authFB={authFB} authLogoutFB={authLogoutFB}/>,
+        init: <LoginChoices 
+          setMode={setMode}
+        //   authFB={authFB}
+        //   authLogoutFB={authLogoutFB}
+        />,
         email: <EmailLogin />,
         // fb: <FaceBookLogin />,
         // google: <GoogleLogin />,

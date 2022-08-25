@@ -13,6 +13,10 @@ body {
   line-height: 1.5;
 }
 
+// main {
+//   display: contents;
+// }
+
 #root {
   position: fixed;
   padding:
@@ -34,7 +38,7 @@ body {
 //   width: 100vw;
 // }
 
-// .react-swipeable-view-container, .SwipeableViews, .SwiperPage, .App {
+// .react-swipeable-view-container, .SwipeableViews, .SwiperPage, .wrapper {
 //   overflow: hidden;
 //   overflow-anchor: none;
 // }
@@ -48,7 +52,7 @@ $page-top-padding: 1em;
 
 // LAYOUT
 
-.App {
+.wrapper {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -72,7 +76,7 @@ $page-top-padding: 1em;
   height: 100%;
 }
 
-.SwiperPage {
+.swiper-view {
   height: 100%;
   width: 100vw;
   padding-top: $page-top-padding;
@@ -95,7 +99,7 @@ $page-top-padding: 1em;
       font-size: 1.5em;
   }
 
-  .App {
+  .wrapper {
     grid-template-rows: $header-height $top-nav-height-lg 1fr $bottom-nav-height-lg;
   }
   
@@ -287,7 +291,7 @@ $page-top-padding: 1em;
   }
 }
 
-.PageHeader-span {
+.view-header {
   font-size: 1.4em;
   line-height: 1.4em;
   font-weight: bolder;

@@ -8,45 +8,46 @@ import Tabs from '@mui/material/Tabs'
 import PersonIcon from '@mui/icons-material/PersonOutlined'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SnowFlake from '@mui/icons-material/AcUnit'
-
+import GenericIcon from '@mui/icons-material/QuestionMarkOutlined'
 
 const TabStyle = {
     minWidth: 'none',
 }
 
-const NavBar = (props) => {
-    const currPage = useStoreState(state => state.currPage);
-	const setCurrPage = useStoreActions(actions => actions.setCurrPage);
+const NavBar = () => {
+    const HOME_VIEWS = useStoreState(state => state.config.HOME_VIEWS);
+    const currView = useStoreState(state => state.currView);
+	const setCurrView = useStoreActions(actions => actions.setCurrView);
 
     const handleTabChange = (e,val) => {
-        setCurrPage({index: val, source: 'tab_click'});
+        setCurrView({index: val, source: 'tab_click'});
     }
 
     const tabMaker = () => {
-        let tabs = props.pageNames.map((pn,i) => {
-            let color = props.pageColors[i];
+        let tabs = HOME_VIEWS.map((view,i) => {
             let icon;
-            switch (pn) {
-                case 'User': 
+            switch (view) {
+                case 'user': 
                     icon = <PersonIcon fontSize="inherit" />;
                     break;
-                case 'Game':
+                case 'main':
                     icon = <SnowFlake fontSize="inherit" />;
                     break;
-                case 'Chat':
+                case 'chat':
                     icon = <ChatBubbleOutlineIcon fontSize="inherit" />;
                     break;
                 default:
+                    icon = <GenericIcon fontSize="inherit"/>
                     break;
             }
             return (
                 <Tab 
                     key={`NavLink-${i}`}
-                    style={ {...TabStyle, backgroundColor: color } }
+                    style={ {...TabStyle} }
                     className='NavLink' 
                     value={i}
                     icon={icon}
-                    label={pn}
+                    label={view}
                     />
             )
         })
@@ -60,7 +61,7 @@ const NavBar = (props) => {
         >
             <Tabs 
                 className='NavBar'
-                value={ currPage } 
+                value={ currView } 
                 onChange={ handleTabChange }
                 variant='fullWidth'
                 indicatorColor={'secondary'}
