@@ -7,9 +7,6 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon src/index.js",
-    "build": "cd ../client && npm install && npm run build && cd ..",
-    "deploy": "cp -a ../client/build/. public/",
-    "postinstall": "npm run build && npm run deploy && echo 'Client built!'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
