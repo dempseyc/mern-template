@@ -7,7 +7,6 @@ import '../../styles/CSSreset.css'
 import '../../styles/globals.css'
 import '../../styles/App.scss'
 import '../../styles/NavBar.scss'
-import Layout from '../components/SP_TAB_layout'
 
 
 function MyApp({ Component, pageProps }) {
@@ -15,9 +14,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
-        <Layout>
           <Component {...pageProps} />
-        </Layout>
       </ThemeProvider>
     </StoreProvider>
   )

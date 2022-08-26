@@ -188,7 +188,7 @@ const movies = {
 const store = {
   config,
   currView: 2,
-  setCurrView: action((state, payload) => { state.currView = payload.index }),
+  setCurrView: action((state, payload) => { state.currView = payload }),
   movies,
   users,
 }

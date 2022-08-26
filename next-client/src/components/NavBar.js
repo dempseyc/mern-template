@@ -20,7 +20,7 @@ const NavBar = () => {
 	const setCurrView = useStoreActions(actions => actions.setCurrView);
 
     const handleTabChange = (e,val) => {
-        setCurrView({index: val, source: 'tab_click'});
+        setCurrView(val);
     }
 
     const tabMaker = () => {

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 
 const SwipeViews = (props) => {

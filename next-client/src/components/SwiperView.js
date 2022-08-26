@@ -1,6 +1,7 @@
 import ViewMain from './ViewMain'
 import ViewUser from './ViewUser'
 import ViewGeneric from './ViewGeneric'
+import ViewMore from './ViewMore'
 
 const SwiperView = (props) => {
 
@@ -15,6 +16,9 @@ const SwiperView = (props) => {
             break;
         case 'user':
             view = <ViewUser {...props}/>;
+            break;
+        case 'more':
+            view = <ViewMore {...props}/>;
             break;
         default:
             view = <ViewGeneric {...props}/>;
