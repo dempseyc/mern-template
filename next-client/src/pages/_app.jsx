@@ -1,5 +1,6 @@
-import { StoreProvider } from 'easy-peasy'
+import { StoreProvider, Store } from 'easy-peasy'
 import wrapper from '../store/store';
+import {StoreModel} from '../store/store';
 import { useStore } from 'react-redux';
 import { ThemeProvider } from "@mui/material";
 import  theme  from "../theme";

@@ -1,4 +1,4 @@
-const Dashboard = (props) => {
+const Dashboard = (): JSX.Element => {
     return (
         <div className="Dashboard">
             <header>DASHBOARD</header>

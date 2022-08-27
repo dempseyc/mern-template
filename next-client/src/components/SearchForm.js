@@ -17,7 +17,7 @@ const SearchForm = (props) => {
     const handleSubmit = (event) => {
         console.log("submit")
         event.preventDefault();
-        submitQuery({query: text, page: 1});
+        submitQuery({text: text, page: 1});
     }
 
     return (

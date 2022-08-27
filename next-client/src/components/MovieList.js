@@ -56,7 +56,7 @@ const MovieList = (props) => {
     const trackScrolling = () => {
         const el = document.getElementById('movie-list');
         if (isBottom(el) && !loading && !complete && data.length<70) {
-           submitQuery({query: query, page: page+1});
+           submitQuery({text: query.text, page: page+1});
         }
     }
 
