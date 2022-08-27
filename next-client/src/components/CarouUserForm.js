@@ -42,20 +42,20 @@ const EmailForm = (props) => {
     )
 }
 
-const VerifyForm = (props) => {
-    return (props.createMode) ? (<form onSubmit={props.handleSubmitPassword}><label>
-        <input ref={props.VPinputRef} type="text" value={props.verify} onChange={props.setVerify} onFocus={()=>props.changeFocus(props.VPinputRef, 'verify')} />
-    </label>
-    <input type="submit" value="Submit" />
-    </form>) : null
-}
-
 const PasswordForm = (props) => {
     return (<form onSubmit={props.handleSubmitPassword}><label>
         <input ref={props.PWinputRef} type="text" value={props.password} onChange={props.setPassword} onFocus={()=>props.changeFocus(props.PWinputRef, 'password')} />
     </label>
     {(!props.createMode) ? <input type="submit" value="Submit" /> : null}
     </form>);
+}
+
+const VerifyForm = (props) => {
+    return (props.createMode) ? (<form onSubmit={props.handleSubmitPassword}><label>
+        <input ref={props.VPinputRef} type="text" value={props.verify} onChange={props.setVerify} onFocus={()=>props.changeFocus(props.VPinputRef, 'verify')} />
+    </label>
+    <Button color="primary" variant="outlined" type="submit" value="Submit">Submit</Button>
+    </form>) : null
 }
 
 const CarouUserForm = (props) => {
@@ -104,7 +104,7 @@ const CarouUserForm = (props) => {
     }
 
     const changeFocus = (ref, stringname) => {
-        ref.current.scrollIntoView({behavior: 'smooth'});
+        ref.current.scrollIntoView({behavior: 'smooth', block: 'start'});
         console.log(ref.current);
         ref.current.focus();
         setFocus(stringname);

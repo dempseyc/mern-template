@@ -1,7 +1,9 @@
 import {useState} from 'react'
 // import Loading from './Loading'
+import {useStoreState, useStoreActions} from 'easy-peasy'
 import LoginChoices from './LoginChoices'
 import CarouUserForm from './CarouUserForm'
+import Stack from '@mui/material/Stack'
 
 const EmailLogin = () => {
     return (
@@ -50,11 +52,10 @@ const LoginModule = () => {
     //     })
     // }
 
-    const ready = false;
+    const ready = useStoreState(state => state.users.ready);
+    const messages = useStoreState(state => state.users.messages);
 
     const [mode, setMode] = useState('init');
-
-    const messages = ['no message'];
 
     const modePattern = {
         init: <LoginChoices 
@@ -69,10 +70,9 @@ const LoginModule = () => {
     }
 
     return (
-        <div className={'user'}>
+        <div className={'login-choices'}>
             { modePattern[mode] }
-            {/* start fetching data for user instead of null */}
-            {(ready) ? null : messageList(messages)}
+            {messageList(messages)}
         </div>
     )
 }

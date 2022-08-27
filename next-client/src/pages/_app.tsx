@@ -1,5 +1,5 @@
 import { StoreProvider } from 'easy-peasy'
-import wrapper from '../../store';
+import wrapper from '../store/store';
 import { useStore } from 'react-redux';
 import { ThemeProvider } from "@mui/material";
 import  theme  from "../theme";
@@ -10,9 +10,8 @@ import '../../styles/NavBar.scss'
 
 
 function MyApp({ Component, pageProps }) {
-  const store = useStore();
   return (
-    <StoreProvider store={store}>
+    <StoreProvider store={useStore()}>
       <ThemeProvider theme={theme}>
           <Component {...pageProps} />
       </ThemeProvider>

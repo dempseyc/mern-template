@@ -29,7 +29,7 @@ const Home = () => {
 			return (
 			<SwiperView
 				key={i}
-				pageIdx={i}
+				index={i}
 				viewName={viewName}
 			/> )
 		});

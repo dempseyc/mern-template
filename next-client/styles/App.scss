@@ -178,14 +178,18 @@ $page-top-padding: 1em;
 ////////
 
 .carou-user-form-and-tabs {
+  width: 94vw;
   display: flex;
   flex-direction: column;
+  padding: 0.2em;
 
   .form-tabs {
+    padding: 0.2em;
       display: flex;
       flex-direction: row;
 
       .form-tab {
+          text-align: left;
           display: block;
           text-decoration: none;
           color: darkgray;
@@ -199,12 +203,14 @@ $page-top-padding: 1em;
 }
 
 .carou-user-form {
-  
   display: flex;
   flex-direction: row;
   max-height: 8rem;
   overflow: hidden;
   overflow-anchor: none;
+  scroll-behavior: smooth;
+  padding: 0.2em;
+  align-items: flex-start;
 
   form {
       flex: 0 0 100%;
@@ -212,7 +218,7 @@ $page-top-padding: 1em;
       label { 
 
           input[type=text] {
-              width: 95%;
+              width: 100%;
               min-height: 1.3em;
               padding: 0.1em;
               font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -230,10 +236,7 @@ $page-top-padding: 1em;
 
       }
       input[type=submit] {
-          // flex: 0 0 100%;
-          margin: 1rem 0;
-          width: 97%;
-          height: 3rem;
+          height: 2rem;
           font-size: 1.5rem;
           color: white;
           background-color: $black-text;

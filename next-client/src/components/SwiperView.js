@@ -1,11 +1,14 @@
+import {useStoreState, useStoreActions} from 'easy-peasy'
 import ViewMain from './ViewMain'
 import ViewUser from './ViewUser'
 import ViewGeneric from './ViewGeneric'
 import ViewMore from './ViewMore'
+import Container from "@mui/material/Container";
 
 const SwiperView = (props) => {
 
     const {viewName, index} = props
+    const currView = useStoreState(state => state.currView);
 
     let view;
 
@@ -26,14 +29,15 @@ const SwiperView = (props) => {
     }
     // deal with useability / aria
     return (
-        // <FocusTrap>
-        <div 
+        <div
+        inert={(index !== currView) ? "" : null}
         className={`${viewName} swiper-view sv-${index}`}
         >
-            <span className='view-header'>{`${viewName[0].toUpperCase() + viewName.substring(1)} View`}</span>
-           {view}
+            <Container>
+                <span className='view-header'>{`${viewName[0].toUpperCase() + viewName.substring(1)} View`}</span>
+                {view}
+            </Container>
         </div>
-        // </FocusTrap>
     )
 }
 

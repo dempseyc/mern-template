@@ -36,6 +36,12 @@ const theme = createTheme({
         styleOverrides: {
           root: {
             margin: '0.1rem',
+            ':focus': { //same as :hover
+              webkitTextDecoration: 'none',
+              textDecoration: 'none',
+              backgroundColor: 'rgba(158, 158, 158, 0.04)',
+              border: '1px solid #9e9e9e'
+            }
           },
           raisedPrimary: {
             color: blueGrey[800],
@@ -73,9 +79,10 @@ const theme = createTheme({
             height: '100%',
           },
           indicator: {
-            backgroundColor: blueGrey[100],
-            height: '3px',
-            boxShadow: `0 -1px 8px ${blueGrey[100]}`
+            backgroundColor: blueGrey[300],
+            height: '4px',
+            borderRadius: '2px 2px 0 0',
+            boxShadow: `0 0px 8px ${blueGrey[900]}`
           }
         },
       },
