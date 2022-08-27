@@ -33,7 +33,7 @@ exports.login = function (req,res){
             } else { 
                 console.log(`no user, no err?`);
                 res.status(401).json({message: 'Invalid Password/Email 3'})
-                return res;
+                return res.end();
             }
         })
         } catch (error) {
