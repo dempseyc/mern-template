@@ -1,5 +1,5 @@
 
-// import {useStoreState, useStoreActions} from 'easy-peasy'
+// import {useStoreState, useStoreActions} from '../store/store'
 import Link from 'next/link'
 
 const ViewMore = (props) => {

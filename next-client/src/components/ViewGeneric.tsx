@@ -1,5 +1,5 @@
 
-// import {useStoreState, useStoreActions} from 'easy-peasy'
+// import {useStoreState, useStoreActions} from '../store/store'
 
 const ViewGeneric = (props) => {
     return (

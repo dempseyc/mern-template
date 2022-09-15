@@ -1,5 +1,5 @@
 
-import { useStoreState, useStoreActions } from 'easy-peasy'
+import { useStoreState, useStoreActions } from '../store/store'
 
 import AppBar from '@mui/material/AppBar'
 import Tab from '@mui/material/Tab'
@@ -8,7 +8,7 @@ import Tabs from '@mui/material/Tabs'
 import PersonIcon from '@mui/icons-material/PersonOutlined'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SnowFlake from '@mui/icons-material/AcUnit'
-import GenericIcon from '@mui/icons-material/QuestionMarkOutlined'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const TabStyle = {
     minWidth: 'none',
@@ -37,7 +37,7 @@ const NavBar = () => {
                     icon = <ChatBubbleOutlineIcon fontSize="inherit" />;
                     break;
                 default:
-                    icon = <GenericIcon fontSize="inherit"/>
+                    icon = <MoreHorizIcon fontSize="inherit"/>
                     break;
             }
             return (

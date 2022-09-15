@@ -1,4 +1,4 @@
-import {useStoreState, useStoreActions} from 'easy-peasy'
+import { useStoreState } from '../store/store'
 import ViewMain from './ViewMain'
 import ViewUser from './ViewUser'
 import ViewGeneric from './ViewGeneric'
@@ -27,10 +27,12 @@ const SwiperView = (props) => {
             view = <ViewGeneric {...props}/>;
             break;
     }
-    // deal with useability / aria
+
     return (
         <div
+        // ts lint, but true doesnt work
         inert={(index !== currView) ? "" : null}
+        aria-current={(index !== currView) ? "false" : "page"}
         className={`${viewName} swiper-view sv-${index}`}
         >
             <Container>

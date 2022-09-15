@@ -11,7 +11,6 @@ const theme = createTheme({
     typography: {
       fontFamily: 'sans-serif',
       fontSize: 20,
-      useNextVariants: true,
     },
     components: {
       MuiButtonBase: {
@@ -26,9 +25,9 @@ const theme = createTheme({
             fontSize: 15,
             margin: '0.5rem',
             padding: '0.5rem',
-          },
-          label: {
-              color: '#ffffff',
+            label: {
+                color: '#ffffff',
+            },
           },
         }
       },
@@ -41,23 +40,16 @@ const theme = createTheme({
               textDecoration: 'none',
               backgroundColor: 'rgba(158, 158, 158, 0.04)',
               border: '1px solid #9e9e9e'
+            },
+            raisedPrimary: {
+              color: blueGrey[800],
+            },
+            raisedSecondary: {
+              color: grey[800],
+            },
+            outlinedPrimary: {
+              color: grey[50],
             }
-          },
-          raisedPrimary: {
-            color: blueGrey[800],
-          },
-          raisedSecondary: {
-            color: grey[800],
-          },
-          outlinedPrimary: {
-            color: grey[50],
-          }
-        },
-      },
-      MuiPrivateTabIndicator: {
-        styleOverrides: {
-          root: {
-            boxShadow: '0 0 0.25rem 0.25rem #1de9b660',
           },
         },
       },
@@ -104,12 +96,6 @@ const theme = createTheme({
           },
         },
       },
-      // MuiSvgIcon: {
-      //   styleOverrides: {
-      //     root: {
-      //     },
-      //   },
-      // },
     },
   });
 

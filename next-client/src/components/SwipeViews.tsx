@@ -6,7 +6,6 @@ const SwipeViews = (props) => {
     const { children, index, setIndex } = props;
     const maxIndex = children.length-1;
 
-
     const swipeViewsStyle = {
         height: '100%',
         width: '100vw',
@@ -19,6 +18,7 @@ const SwipeViews = (props) => {
         transition: 'transform 200ms',
         transform: `translateX(${index*-(100/children.length)}%)`,
     }
+
     const handlers = useSwipeable({
         onSwipedLeft: (eventData) => {
             console.log("swipeleft");

@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react'
 import { useRouter } from 'next/router'
-import { useStoreState, useStoreActions } from 'easy-peasy'
+import { useStoreState, useStoreActions } from '../../store/store'
 import SwipeViews from 'components/SwipeViews'
 import SwiperView from 'components/SwiperView'
 import SP_TAB_Layout from "components/SP_TAB_Layout"

@@ -1,9 +1,9 @@
-import {useState} from 'react'
+import { useState } from 'react'
 // import Loading from './Loading'
-import {useStoreState, useStoreActions} from 'easy-peasy'
+import { useStoreState } from '../store/store'
+import Button from '@mui/material/Button';
 import LoginChoices from './LoginChoices'
 import CarouUserForm from './CarouUserForm'
-import Stack from '@mui/material/Stack'
 
 const EmailLogin = () => {
     return (
@@ -71,6 +71,10 @@ const LoginModule = () => {
 
     return (
         <div className={'login-choices'}>
+            {(mode !== 'init') && <Button 
+            key="login-choice-back"
+            onClick={()=>setMode('init')}
+            >Back to Login Choices</Button>}
             { modePattern[mode] }
             {messageList(messages)}
         </div>

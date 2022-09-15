@@ -1,5 +1,4 @@
 import {useState} from 'react';
-// import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import Input from "@mui/material/Input";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
@@ -26,7 +25,7 @@ const SearchForm = (props) => {
             <form className="search-form" onSubmit={handleSubmit}>
                 <TextField
                     value={text}
-                    onChange={(e)=>setText(e.target.value)}
+                    onChange={(e) => setText(e.target.value)}
                     required
                     InputProps={{
                         endAdornment: (
