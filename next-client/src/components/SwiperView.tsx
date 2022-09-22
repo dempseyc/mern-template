@@ -30,15 +30,24 @@ const SwiperView = (props) => {
 
     return (
         <div
-        // ts lint, but true doesnt work
-        inert={(index !== currView) ? "" : null}
+        // workaround for inert not on type for
+        ref={(node) => {
+            if (node && (index !== currView)) {
+                node.setAttribute('inert', '');
+            } else  {
+                if  (node && node.hasAttribute('inert'))  {
+                    node.removeAttribute('inert');
+                }
+            }
+            return node;
+        }}
         aria-current={(index !== currView) ? "false" : "page"}
         className={`${viewName} swiper-view sv-${index}`}
         >
-            <Container>
+
                 <span className='view-header'>{`${viewName[0].toUpperCase() + viewName.substring(1)} View`}</span>
-                {view}
-            </Container>
+                <div className='view-content'>{view}</div>
+
         </div>
     )
 }

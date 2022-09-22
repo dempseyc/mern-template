@@ -14,7 +14,7 @@ const SwipeViews = (props) => {
     // put transitions in and add eventlister for transition end somewhere in here
     const viewsWrapperStyle = {
         display: 'inline-flex',
-        flexDirection: 'row',
+        flexDirection: 'row' as const,
         transition: 'transform 200ms',
         transform: `translateX(${index*-(100/children.length)}%)`,
     }

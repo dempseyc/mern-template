@@ -11,6 +11,8 @@ export const config = {
         bodyParser: false
     }
 }
-export default (req, res) => {
+const proxyInit = (req, res) => {
     proxy.web(req, res, { target: API_URL, changeOrigin: true })
 }
+
+export default proxyInit

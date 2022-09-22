@@ -62,7 +62,7 @@ body {
 
 html {
     height: -webkit-fill-available;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /* fix another safari ios issue */

@@ -1,27 +1,22 @@
-import {useEffect, useRef} from 'react'
-import { useRouter } from 'next/router'
+import {useMemo, useEffect, useState, useRef} from 'react'
 import { useStoreState, useStoreActions } from '../../store/store'
 import SwipeViews from 'components/SwipeViews'
 import SwiperView from 'components/SwiperView'
 import SP_TAB_Layout from "components/SP_TAB_Layout"
+import Router from 'next/router'
+
+const HOME_VIEWS = ['main','chat','user','more'];
 
 const Home = () => {
-	const router = useRouter()
+	// const router = useRouter();
 	console.log('home render');
-	const HOME_VIEWS = useStoreState(state => state.config.HOME_VIEWS);
 	const currView = useStoreState(state => state.currView);
 	const setCurrView = useStoreActions(actions => actions.setCurrView);
-	const currViewName = useRef(HOME_VIEWS[currView]);
+	const currViewName = useMemo(() => HOME_VIEWS[currView], [currView]);
 
 	useEffect(() => {
-		currViewName.current = HOME_VIEWS[currView];
-		if (router.pathname !== `/home/${currViewName.current}`) {
-			router.push({
-				pathname: '/home/[view]',
-				query: { view: `${currViewName.current}` },
-			  })
-		}
-	},[currView])
+		Router.push(currViewName)
+	}, [currViewName])
 
 	const buildSwiperViews = () => {
 		const views = HOME_VIEWS.map((view,i) => {
@@ -41,8 +36,7 @@ const Home = () => {
 		<SwipeViews
 			index={currView}
 			setIndex={(index) => setCurrView(index)}
-			children={ buildSwiperViews() }
-		/>	
+		>{buildSwiperViews() }</SwipeViews>	
 		</>
 	)
 }

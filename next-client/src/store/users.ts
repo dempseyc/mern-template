@@ -98,7 +98,7 @@ export const users: UsersModel = {
           }
         });
         actions.storeToken(response.data);
-        actions.fetchUser();
+        actions.fetchUser(null);
       } catch (error) {
         console.log(error)
         actions.setMessages(error.response.data.message);

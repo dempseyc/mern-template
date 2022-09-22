@@ -9,13 +9,13 @@ body {
   color: $white-text;
   background: #222222;
   font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 4vw;
+  font-size: 5vw;
   line-height: 1.5;
 }
 
-// main {
-//   display: contents;
-// }
+h1 {
+  font-size: 1.5em;
+}
 
 #root {
   position: fixed;
@@ -25,7 +25,6 @@ body {
     env(safe-area-inset-bottom)
     env(safe-area-inset-left);
   overflow: hidden;
-  // overflow-anchor: none;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
 }
@@ -34,23 +33,15 @@ body {
   display: none;  /* Safari and Chrome */
 }
 
-// .react-swipeable-view-container > div {
-//   width: 100vw;
-// }
+// LAYOUT
 
-// .react-swipeable-view-container, .SwipeableViews, .SwiperPage, .wrapper {
-//   overflow: hidden;
-//   overflow-anchor: none;
-// }
-
-$header-height: 4em;
+$header-height: 3em;
 $top-nav-height-sm: 0;
 $top-nav-height-lg: 2em;
 $bottom-nav-height-sm: 4em;
 $bottom-nav-height-lg: 0em;
 $page-top-padding: 1em;
-
-// LAYOUT
+$default-margin: 0.5em;
 
 .wrapper {
   width: 100vw;
@@ -77,10 +68,22 @@ $page-top-padding: 1em;
 }
 
 .swiper-view {
-  height: 100%;
+  height: 99%;
   width: 100vw;
-  padding-top: $page-top-padding;
-  // padding-bottom: $bottom-nav-height-sm;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.view-content {
+  height:  100%;
+}
+
+.movie-list {
+  max-height: calc(100% - 6em);
+  min-height: 29em;
+  overflow-y: scroll;
+  margin-top: $default-margin;
 }
 
 .NB-Layout {
@@ -93,10 +96,6 @@ $page-top-padding: 1em;
   body {
       font-size: 3vw;
       line-height: 1;
-  }
-
-  h1 {
-      font-size: 1.5em;
   }
 
   .wrapper {
@@ -157,36 +156,21 @@ $page-top-padding: 1em;
   font-feature-settings: 'liga';
 }
 
-// .user {
-//   max-height: 65vh;
-//   // overflow-y: scroll;
-// }
-
-// .page {
-//   position: relative;
-//   width: 95vw;
-//   margin: 0 auto;
-//   margin-top: 10vh;
-//   max-height: 90vh;
-//   overflow-y: hidden;
-//   overflow-x: hidden;
-//   overflow-anchor: none;
-// }
-
 ////////
 ////////  from SwiperPage.scss
 ////////
 
 .carou-user-form-and-tabs {
-  width: 94vw;
-  display: flex;
-  flex-direction: column;
-  padding: 0.2em;
+  // overflow: hidden;
+  width: 100vw;
 
   .form-tabs {
+    position: relative;
+    left: 0;
+    width: 100vw;
     padding: 0.2em;
-      display: flex;
-      flex-direction: row;
+    display: flex;
+    flex-direction: row;
 
       .form-tab {
           text-align: left;
@@ -202,15 +186,7 @@ $page-top-padding: 1em;
   }
 }
 
-.carou-user-form {
-  display: flex;
-  flex-direction: row;
-  max-height: 8rem;
-  overflow: hidden;
-  overflow-anchor: none;
-  scroll-behavior: smooth;
-  padding: 0.2em;
-  align-items: flex-start;
+.panels-wrapper {
 
   form {
       flex: 0 0 100%;
@@ -224,14 +200,10 @@ $page-top-padding: 1em;
               font-family: 'M PLUS Rounded 1c', sans-serif;
               font-size: 1em;
               display: inline-block;
-              // font-size: 1rem;
               color: #ddddcc;
               border: 5px solid #ddddcc;
-              // padding: 2px;
-              // padding-left: 7px;
               margin-bottom: 0.4em;
               background: #666655;
-              // margin: 0 0 10px 0;
           }
 
       }
@@ -245,9 +217,6 @@ $page-top-padding: 1em;
       }
   }
 
-  // .focus {
-  //     flex: 10 0 100%;
-  // }
 }
 
 .list {
@@ -263,12 +232,10 @@ $page-top-padding: 1em;
   display: flex;
   width: 95vw;
   left: 0;
-  // bottom: 74px;
 
   text-align: left;
 
   input[type=text] {
-      // display: inline-flex;
       margin: 0;
       flex-basis: 85%;
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -281,7 +248,6 @@ $page-top-padding: 1em;
   }
 
   input[type=submit] {
-      // display: inline-flex;
       margin: 0;
       margin-left: -4px;
       flex-basis: 15%;
@@ -299,7 +265,6 @@ $page-top-padding: 1em;
   line-height: 1.4em;
   font-weight: bolder;
   max-height: 2em;
-  // text-transform: uppercase;
 }
 
 button {

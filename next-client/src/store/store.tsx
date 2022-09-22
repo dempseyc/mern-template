@@ -1,18 +1,13 @@
-import { createStore, action } from 'easy-peasy'
+import { StoreProvider, createStore, action, Store } from 'easy-peasy'
 import { createTypedHooks } from 'easy-peasy';
 // import { actionOn, thunk } from 'easy-peasy'
-import { HYDRATE, createWrapper } from "next-redux-wrapper";
+import { HYDRATE, createWrapper, Context } from "next-redux-wrapper";
 
 import {Action} from 'easy-peasy'
 import {users, UsersModel} from './users'
 import {movies, MoviesModel} from './movies'
 
-const config = {
-  HOME_VIEWS: ['main','chat','user','more']
-}
-
 export interface StoreModel {
-  config: any;
   currView: number;
   setCurrView: Action<StoreModel, StoreModel['currView']>;
   movies: MoviesModel;
@@ -26,21 +21,20 @@ export const useStoreDispatch = typedHooks.useStoreDispatch;
 export const useStoreState = typedHooks.useStoreState;
 // export const useStore = typedHooks.useStore;
 
-const store: StoreModel = {
-  config,
+export const model: StoreModel = {
   currView: 2,
   setCurrView: action((state, payload) => { state.currView = payload }),
   movies,
   users,
 }
 
-const initStore = () => {
-  return createStore <StoreModel> (store);
+const makeStore = (context: Context) => {
+  return createStore(model);
 }
+export const store = createStore(model);
 
-const wrapper = createWrapper(initStore);
+export const wrapper = createWrapper<Store<StoreModel>>(makeStore, {debug: true});
 
-export default wrapper
 
 // const SSR_HYDRATE = actionOn(
 //   () => HYDRATE,

@@ -74,7 +74,7 @@ const theme = createTheme({
             backgroundColor: blueGrey[300],
             height: '4px',
             borderRadius: '2px 2px 0 0',
-            boxShadow: `0 0px 8px ${blueGrey[900]}`
+            // boxShadow: `0 0px 8px ${blueGrey[900]}`
           }
         },
       },

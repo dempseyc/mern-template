@@ -15,7 +15,7 @@ const TabStyle = {
 }
 
 const NavBar = () => {
-    const HOME_VIEWS = useStoreState(state => state.config.HOME_VIEWS);
+    const HOME_VIEWS = ['main','chat','user','more'];
     const currView = useStoreState(state => state.currView);
 	const setCurrView = useStoreActions(actions => actions.setCurrView);
 

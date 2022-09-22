@@ -1,28 +1,35 @@
 import { useState, useEffect} from 'react'
-import {useStoreState, useStoreActions} from 'easy-peasy'
+import {useStoreState, useStoreActions} from '../store/store'
 
 import MovieListItem from './MovieListItem'
 
 const MovieList = (props) => {
     const {query, submitQuery} = props;
-    const [selected, setSelected] = useState(false)
+    // const [selected, setSelected] = useState(false)
 
     const setSelection = useStoreActions(actions => actions.movies.setSelection);
 
     const data = useStoreState(state => state.movies.data);
     const loading = useStoreState(state => state.movies.loading);
     const complete = useStoreState(state => state.movies.complete);
-    const page = useStoreState(state => state.movies.page);
+    const page = useStoreState(state => state.movies.query.page);
     const pages = useStoreState(state => state.movies.pages);
     const selection = useStoreState(state => state.movies.selection);
-
 
     const isBottom = (el) => {
         return el.getBoundingClientRect().bottom <= window.innerHeight;
     }
 
+    const handleScroll = (e) => {
+        const element = e.target;
+        if (isBottom(element)) {
+            if (!loading && !complete && data.length<70) {
+                submitQuery({text: query.text, page: page+1});
+            }
+        }
+    }
+
     const selectMovie = (item, i) => {
-        // setSelected(true);
         setSelection({selection: item, index: i});
     }
 
@@ -53,29 +60,18 @@ const MovieList = (props) => {
         });
     }
 
-    const trackScrolling = () => {
-        const el = document.getElementById('movie-list');
-        if (isBottom(el) && !loading && !complete && data.length<70) {
-           submitQuery({text: query.text, page: page+1});
-        }
-    }
-
     useEffect(() => {
-        document.addEventListener('scroll', trackScrolling);
-        return function cleanup () {
-            document.removeEventListener('scroll', trackScrolling);
+        window.addEventListener("scroll", handleScroll)
+        return () => {
+          window.removeEventListener("scroll", handleScroll)
         }
-    }, [])
-
-    useEffect(() => {
-        if (selection) { setSelected(true); }
-    }, [selection])
+    })
 
     const list = (data.length>0) ? movieListItems(data) : null ;
-    const content = (selected) ? currentMovie(selection) : list
+    const content = selection ? currentMovie(selection) : list
 
     return (
-        < div id='movie-list' className='movie-list' onScroll={trackScrolling} >
+        < div id='movie-list' className='movie-list' onScroll={handleScroll}>
             {content}
         </div>
     );
