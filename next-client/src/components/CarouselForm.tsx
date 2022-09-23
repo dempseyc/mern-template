@@ -11,6 +11,7 @@ const CarouselPanels = (props) => {
     overflow: "hidden",
   };
   const panelsWrapperStyle = {
+    position: "relative",
     width: "100%",
     display: "inline-flex",
     // did not work on chrome with translateX
@@ -96,7 +97,7 @@ const FieldInput = (props) => {
         type="text"
         value={value}
         onChange={handleChange}
-        onFocus={() => changeFocus(idx,fieldRef)}
+        onFocus={(e) => { changeFocus(idx,fieldRef); }}
         required
       />
       {valid ? null : <p>{ field.error }</p>}
