@@ -96,6 +96,13 @@ const theme = createTheme({
           },
         },
       },
+      MuiSvgIcon: {
+        styleOverrides: {
+          root: {
+            fontSize: 'inherit',
+          }
+        }
+      }
     },
   });
 

@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { useStoreState } from '../store/store'
 import Button from '@mui/material/Button';
 import LoginChoices from './LoginChoices'
-import CarouselForm from './CarouselForm'
+import CarouUserForm from './CarouUserForm'
 
 const EmailLogin = () => {
     return (
-        <CarouselForm
+        <CarouUserForm
             createMode={false}
         />
     )
@@ -15,7 +15,7 @@ const EmailLogin = () => {
 
 const EmailCreate = () => {
     return (
-        <CarouselForm 
+        <CarouUserForm 
             createMode={true}
         />
     )
