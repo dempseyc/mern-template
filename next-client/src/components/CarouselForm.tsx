@@ -11,7 +11,7 @@ const CarouselPanels = (props) => {
     overflow: "hidden",
   };
   const panelsWrapperStyle = {
-    position: "relative",
+    position: "relative" as "relative",
     width: "100%",
     display: "inline-flex",
     // did not work on chrome with translateX
