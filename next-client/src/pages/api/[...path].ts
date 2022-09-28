@@ -107,3 +107,29 @@ export default proxyInit
 //         return res.status(400).json({message:'No Auth Details'});
 //     }
 // };
+
+
+// // create response
+  // just logs in user with credentials
+    
+  
+  // // login response 
+  {
+      user_id: new ObjectId("62d5eda691ce42cf1d6e9a9e"),
+      email: 'u3@u.com',
+      username: 'u3',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjJkNWVkYTY5MWNlNDJjZjFkNmU5YTllIiwiaWF0IjoxNjY0Mzg1MzYwfQ.wlX3l17VCBYFV0m1-UQxSUH03JoPv2M739RJDaF9_fc'
+    }
+
+ // // fetch one response
+  {
+    image: '/blank-profile-picture-973460_1280.webp',
+    _id: new ObjectId("62d5eda691ce42cf1d6e9a9e"),
+    username: 'u3',
+    email: 'u3@u.com',
+    pw_hash: 'secured',
+    created_on: 2022-07-18T23:32:54.109Z,
+    recently_active_on: 2022-07-18T23:32:54.109Z,
+    __v: 0
+  }
+

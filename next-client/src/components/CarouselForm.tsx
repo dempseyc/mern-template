@@ -12,10 +12,10 @@ const CarouselPanels = (props) => {
   };
   const panelsWrapperStyle = {
     position: "relative" as "relative",
-    width: "100%",
+    width: `${100*children.length}vw`,
     display: "inline-flex",
     // did not work on chrome with translateX
-    left: `${index * -100}%`,
+    left: `${index * (children.length/-100)}%`,
   };
   return (
     <div className="panels" style={panelsStyle}>
@@ -90,14 +90,20 @@ const FieldInput = (props) => {
     }
   }
 
+  const handleOnFocus = (e) => {
+    e.preventDefault();
+    changeFocus(idx,fieldRef);
+  }
+
   return (
     <label key={idx}>
       <input
+        key={idx}
         ref={fieldRef}
         type="text"
         value={value}
         onChange={handleChange}
-        onFocus={(e) => { changeFocus(idx,fieldRef); }}
+        onFocus={handleOnFocus}
         required
       />
       {valid ? null : <p>{ field.error }</p>}
@@ -123,7 +129,7 @@ const CarouselForm = (props) => {
   const changeFocus = (idx, ref) => {
     console.log(ref, idx);
     setIndex(idx);
-    ref.current.focus();
+    ref.current.focus({preventScroll: true});
     changeTouched(idx, 1);
   };
 
