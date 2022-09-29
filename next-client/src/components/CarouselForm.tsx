@@ -6,16 +6,20 @@ import StatusCircle from './StatusCircle';
 const CarouselPanels = (props) => {
   const { index, children } = props;
   const panelsStyle = {
-    position: "relative" as "relative",
-    height: "100%",
-    // width: `${100 * children.length}%`,
-    width: "100vw",
-    overflow: "hidden",
+    // position: "fixed" as "fixed",
+    height: "25vh",
+    width: "80vw",
+    margin: "0 auto",
+    overflow: "hidden", 
+    // textAlign: "center",
   };
   const panelsWrapperStyle = {
     position: "relative" as "relative",
+    // width: `${100 * children.length}%`,
     width: "100%",
+    left: `${-100 * index}%`,
     display: "inline-flex",
+    // flexDirection: "column"
   };
   return (
     <div className="panels" style={panelsStyle}>
@@ -68,6 +72,7 @@ const FieldInput = (props) => {
     fieldRef,
     field,
     idx,
+    index,
     changeValid,
     changeValue,
     changeFocus,
@@ -92,8 +97,9 @@ const FieldInput = (props) => {
 
   const handleOnFocus = (e) => {
     e.preventDefault();
-    e.target.focus({preventScroll: true});
     changeFocus(idx,fieldRef);
+    // hack to get safari and chrome to do the same thing
+    e.target.parentElement.parentElement.parentElement.scrollTo(0,0);
   }
 
   return (
@@ -104,6 +110,7 @@ const FieldInput = (props) => {
         value={value}
         onChange={handleChange}
         onFocus={handleOnFocus}
+        
       />
       {valid ? null : <p>{ field.error }</p>}
       {children}
@@ -155,6 +162,7 @@ const CarouselForm = (props) => {
           fieldRef={refs[idx]}
           field={field}
           idx={idx}
+          index={index}
           changeValid={changeValid}
           changeValue={changeValue}
           changeFocus={changeFocus}

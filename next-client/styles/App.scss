@@ -2,6 +2,9 @@ $black-text: #202020ff;
 $white-text: #d0d0d0ff;
 
 html, body {
+  position:relative;
+   /*overflow:hidden;*/
+   height: 100%;
   overflow: hidden;
 }
 
@@ -188,7 +191,8 @@ $default-margin: 0.5em;
 
 .panels-wrapper {
   
-  label { 
+  label {
+    // width: 100%;
     flex: 0 0 100%;
     // padding-left: 10%;
     // padding-right: 10%;
@@ -197,15 +201,15 @@ $default-margin: 0.5em;
         input[type=text] {
           width: 80%;
           margin: 0 10%;
-            min-height: 1.3em;
-            padding: 0.1em;
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 1em;
-            display: inline-block;
-            color: #ddddcc;
-            border: 5px solid #ddddcc;
-            margin-bottom: 0.4em;
-            background: #666655;
+          min-height: 1.3em;
+          padding: 0.1em;
+          font-family: 'M PLUS Rounded 1c', sans-serif;
+          font-size: 1em;
+          display: inline-block;
+          color: #ddddcc;
+          border: 5px solid #ddddcc;
+          margin-bottom: 0.4em;
+          background: #666655;
         }
 
     }
