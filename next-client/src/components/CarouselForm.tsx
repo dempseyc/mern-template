@@ -149,7 +149,7 @@ const CarouselForm = (props) => {
 
   const checkValid = () => {
     console.log(validity);
-    return (validity.every(item => item === 1));
+    return (validity.every(item => item == true));
   }
 
   const fieldInputs = fields.map((field, idx) => {
