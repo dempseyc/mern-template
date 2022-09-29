@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 
 import StatusCircle from './StatusCircle';
@@ -50,7 +50,6 @@ const FormTabs = (props) => {
         className={classes.join(" ")}
         onClick={() => {
           ref.current.focus();
-          // changeFocus(idx,ref)
         }}
       >
         <StatusCircle key={idx} status={getStatus()} />{`${tabname}`}
@@ -98,9 +97,8 @@ const FieldInput = (props) => {
   }
 
   return (
-    <label key={idx}>
+    <label>
       <input
-        key={idx}
         ref={fieldRef}
         type="text"
         value={value}
@@ -130,8 +128,6 @@ const CarouselForm = (props) => {
   const changeFocus = (idx, ref) => {
     console.log(ref, idx);
     setIndex(idx);
-    // ref.current.focus({preventScroll: true});
-    // ref.current.focus();
     changeTouched(idx, 1);
   };
 
@@ -149,14 +145,13 @@ const CarouselForm = (props) => {
 
   const checkValid = () => {
     console.log(validity);
-    return (validity.every(item => item === 1));
+    return (validity.every(item => item == true));
   }
 
   const fieldInputs = fields.map((field, idx) => {
     return (
-      <>
+      <React.Fragment key={`fi-${idx}-${fields.length}`}>
         <FieldInput
-          key={idx}
           fieldRef={refs[idx]}
           field={field}
           idx={idx}
@@ -166,7 +161,7 @@ const CarouselForm = (props) => {
         >
         {
           (idx === fields.length-1) && 
-          <Button 
+          <Button
             color="primary" 
             variant="outlined" 
             type="submit" 
@@ -174,7 +169,7 @@ const CarouselForm = (props) => {
               Submit
           </Button>
         }</FieldInput>
-      </>
+      </React.Fragment>
     )
   });
 

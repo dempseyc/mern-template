@@ -8,6 +8,7 @@ const CarouUserForm = (props) => {
   const loginUser = useStoreActions((actions) => actions.users.loginUser);
 
   const handleSubmitPassword = (values) => {
+    console.log("loginUser")
     loginUser({
       email: values[0],
       password: values[1],
@@ -16,6 +17,7 @@ const CarouUserForm = (props) => {
 
   const handleSubmitCreate = (values) => {
     if (values[2] === values[1]) {
+      console.log("createUser")
       createUser({
         email: values[0],
         password: values[1],
