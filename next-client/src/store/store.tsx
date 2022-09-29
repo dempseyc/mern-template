@@ -1,6 +1,5 @@
-import { StoreProvider, createStore, action, Store } from 'easy-peasy'
+import { createStore, action, Store } from 'easy-peasy'
 import { createTypedHooks } from 'easy-peasy';
-// import { actionOn, thunk } from 'easy-peasy'
 import { HYDRATE, createWrapper, Context } from "next-redux-wrapper";
 
 import {Action} from 'easy-peasy'
@@ -19,7 +18,6 @@ const typedHooks = createTypedHooks<StoreModel>();
 export const useStoreActions = typedHooks.useStoreActions;
 export const useStoreDispatch = typedHooks.useStoreDispatch;
 export const useStoreState = typedHooks.useStoreState;
-// export const useStore = typedHooks.useStore;
 
 export const model: StoreModel = {
   currView: 2,

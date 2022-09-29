@@ -28,7 +28,7 @@ const messageList = (messages) => {
         )
     })
     return (
-        <ul>{ms}</ul>
+        <ul key="message-list" >{ms}</ul>
     )
 }
 
