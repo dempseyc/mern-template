@@ -6,16 +6,16 @@ import StatusCircle from './StatusCircle';
 const CarouselPanels = (props) => {
   const { index, children } = props;
   const panelsStyle = {
+    position: "relative" as "relative",
     height: "100%",
+    // width: `${100 * children.length}%`,
     width: "100vw",
     overflow: "hidden",
   };
   const panelsWrapperStyle = {
     position: "relative" as "relative",
-    width: `${100*children.length}vw`,
+    width: "100%",
     display: "inline-flex",
-    // did not work on chrome with translateX
-    left: `${index * (children.length/-100)}%`,
   };
   return (
     <div className="panels" style={panelsStyle}>
@@ -49,7 +49,8 @@ const FormTabs = (props) => {
         key={`tab-${idx}`}
         className={classes.join(" ")}
         onClick={() => {
-          changeFocus(idx,ref)
+          ref.current.focus();
+          // changeFocus(idx,ref)
         }}
       >
         <StatusCircle key={idx} status={getStatus()} />{`${tabname}`}
@@ -92,6 +93,7 @@ const FieldInput = (props) => {
 
   const handleOnFocus = (e) => {
     e.preventDefault();
+    e.target.focus({preventScroll: true});
     changeFocus(idx,fieldRef);
   }
 
@@ -104,7 +106,6 @@ const FieldInput = (props) => {
         value={value}
         onChange={handleChange}
         onFocus={handleOnFocus}
-        required
       />
       {valid ? null : <p>{ field.error }</p>}
       {children}
@@ -129,7 +130,8 @@ const CarouselForm = (props) => {
   const changeFocus = (idx, ref) => {
     console.log(ref, idx);
     setIndex(idx);
-    ref.current.focus({preventScroll: true});
+    // ref.current.focus({preventScroll: true});
+    // ref.current.focus();
     changeTouched(idx, 1);
   };
 
@@ -143,6 +145,11 @@ const CarouselForm = (props) => {
     let newValues = [...values];
     newValues[idx] = value;
     setValues(newValues);
+  }
+
+  const checkValid = () => {
+    console.log(validity);
+    return (validity.every(item => item === 1));
   }
 
   const fieldInputs = fields.map((field, idx) => {
@@ -183,7 +190,9 @@ const CarouselForm = (props) => {
         />
         <form onSubmit={(e) => {
             e.preventDefault();
-            handleSubmit(values);
+            if (checkValid()) {
+              handleSubmit(values);
+            }
           }}>
           <CarouselPanels index={index}>
               {fieldInputs}

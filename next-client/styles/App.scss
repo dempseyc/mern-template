@@ -187,13 +187,16 @@ $default-margin: 0.5em;
 }
 
 .panels-wrapper {
-
+  
   label { 
-      flex: 0 0 100vw;
+    flex: 0 0 100%;
+    // padding-left: 10%;
+    // padding-right: 10%;
+
 
         input[type=text] {
-            width: 80%;
-            margin: 0 10%;
+          width: 80%;
+          margin: 0 10%;
             min-height: 1.3em;
             padding: 0.1em;
             font-family: 'M PLUS Rounded 1c', sans-serif;

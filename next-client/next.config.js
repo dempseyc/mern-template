@@ -16,7 +16,21 @@ const nextConfig = {
         permanent: true,
       }
     ]
-  }
+  },
+  async headers() {
+    return [
+      {
+        source: '/api/[...path]',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, max-age=0',
+          },
+        ],
+      },
+    ];
+  },
+  compress: false,
 }
 
 module.exports = nextConfig
