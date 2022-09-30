@@ -60,13 +60,6 @@ const MovieList = (props) => {
         });
     }
 
-    // useEffect(() => {
-    //     window.addEventListener("scroll", handleScroll)
-    //     return () => {
-    //       window.removeEventListener("scroll", handleScroll)
-    //     }
-    // })
-
     const list = (data.length>0) ? movieListItems(data) : null ;
 
     return (
