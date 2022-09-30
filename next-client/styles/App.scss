@@ -85,8 +85,9 @@ $default-margin: 0.5em;
 }
 
 .movie-list {
-  max-height: calc(100% - 6em);
-  min-height: 29em;
+  max-height: 19em;
+  // max-height: 912px; //mui button minheight 48px * 19;
+  min-height: 48px;
   overflow-y: scroll;
   margin-top: $default-margin;
 }

@@ -13,7 +13,7 @@ export interface MoviesModel {
     error: boolean;
     query: QueryShape;
     //tbd
-    selection: any;
+    selection: number | null;
     loading: boolean;
     complete: boolean;
     pages: number;
@@ -42,11 +42,10 @@ export const movies: MoviesModel = {
       state.pages = payload.total_pages ;
     }),
     setQuery: action((state,payload) => { state.query = payload}),
-    setSelection: action((state,payload) => { state.selection = payload.selection}), // also has index
+    setSelection: action((state,payload) => { state.selection = payload}), // also has index
     submitQuery: thunk(async (actions,payload) => {
       const {text,page} = payload;
       const queryEnc = encodeURI(text);
-      // const url = `${API2_URL}search/movie?api_key=${API2_KEY}&language=en-US&query=${queryEnc}&page=${page}`
       const url = `${API2_URL}&query=${queryEnc}&page=${page}`
       actions.setQuery({text:text,page:page});
       actions.setLoading(true);
