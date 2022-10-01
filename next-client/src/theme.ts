@@ -86,6 +86,7 @@ const theme = createTheme({
               color: '#000000ff',
             },
             minWidth: '75px',
+
           },
         },
       },
