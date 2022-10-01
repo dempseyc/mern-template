@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import SearchIcon from '@mui/icons-material/Search';
 
 const SearchForm = (props) => {
-    const {submitQuery} = props;
+    const {submitQuery, resetQuery, setFilter} = props;
 
     const [text, setText] = useState('');
     
@@ -25,12 +25,17 @@ const SearchForm = (props) => {
             <form className="search-form" onSubmit={handleSubmit}>
                 <TextField
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setText(val);
+                        setFilter(val);
+                        if (val === '') { resetQuery(); }
+                    }}
                     required
                     InputProps={{
                         endAdornment: (
                         <InputAdornment position="start">
-                            <IconButton>
+                            <IconButton onClick={handleSubmit}>
                             <SearchIcon />
                             </IconButton>
                         </InputAdornment>

@@ -13,7 +13,7 @@ export interface MoviesModel {
     error: boolean;
     query: QueryShape;
     //tbd
-    selection: any;
+    selection: number | null;
     loading: boolean;
     complete: boolean;
     pages: number;
@@ -24,6 +24,7 @@ export interface MoviesModel {
     setQuery: Action<MoviesModel, QueryShape>;
     setSelection: Action<MoviesModel, MoviesModel['selection']>;
     submitQuery: Thunk<MoviesModel, QueryShape>;
+    resetQuery: Action<MoviesModel, any>;
 }
 
 export const movies: MoviesModel = {
@@ -39,24 +40,34 @@ export const movies: MoviesModel = {
     setLoading: action((state,payload) => { state.loading = payload}),
     setData: action((state,payload) => { 
       state.data = [...state.data, ...payload.results];
-      state.pages = payload.total_pages ;
+      state.pages = payload.total_pages;
+      state.complete = state.query.page >= payload.total_pages;
     }),
     setQuery: action((state,payload) => { state.query = payload}),
-    setSelection: action((state,payload) => { state.selection = payload.selection}), // also has index
+    resetQuery: action((state,payload) => {
+      state.query = {text:'',page:-1};
+      state.pages = 0;
+      state.data = [];
+      state.loading = false;
+      state.complete = false;
+      state.error = false;
+    }),
+    setSelection: action((state,payload) => { state.selection = payload}), // also has index
     submitQuery: thunk(async (actions,payload) => {
       const {text,page} = payload;
-      const queryEnc = encodeURI(text);
-      // const url = `${API2_URL}search/movie?api_key=${API2_KEY}&language=en-US&query=${queryEnc}&page=${page}`
-      const url = `${API2_URL}&query=${queryEnc}&page=${page}`
-      actions.setQuery({text:text,page:page});
-      actions.setLoading(true);
-      try {
-        const response = await axios.get(url);
-        actions.setData(response.data);
-      } catch (error) {
-        actions.setError(true);
-      } finally {
-        actions.setLoading(false);
+      if (text.length) {
+        const queryEnc = encodeURI(text);
+        const url = `${API2_URL}&query=${queryEnc}&page=${page}`
+        actions.setQuery({text:text,page:page});
+        actions.setLoading(true);
+        try {
+          const response = await axios.get(url);
+          actions.setData(response.data);
+        } catch (error) {
+          actions.setError(true);
+        } finally {
+          actions.setLoading(false);
+        }
       }
     })
   }

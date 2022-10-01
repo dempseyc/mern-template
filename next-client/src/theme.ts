@@ -85,7 +85,8 @@ const theme = createTheme({
             "&.Mui-selected": {
               color: '#000000ff',
             },
-            minWidth: '75px'
+            minWidth: '75px',
+
           },
         },
       },

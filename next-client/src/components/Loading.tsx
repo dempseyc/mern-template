@@ -1,6 +1,7 @@
 const Loading = (props) => {
+   const {isLoading, contentName} = props;
    return (
-      <div className={`loading ${props.contentName}`}></div>
+      isLoading && <div className={`loading ${contentName}`}>{`...loading ${contentName}...`}</div>
    );
 }
 
