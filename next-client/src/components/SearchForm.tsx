@@ -35,7 +35,7 @@ const SearchForm = (props) => {
                     InputProps={{
                         endAdornment: (
                         <InputAdornment position="start">
-                            <IconButton>
+                            <IconButton onClick={handleSubmit}>
                             <SearchIcon />
                             </IconButton>
                         </InputAdornment>
