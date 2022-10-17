@@ -28,3 +28,23 @@ root/api/src/db/seed_db.js like:
 
 `node ./api/src/db/seed_db.js`
 
+there is some code commented out that integrates FB oauth features in
+* for html, in _document.tsx, something like this needs to be added
+```
+<script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '192120301601669',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v14.0'
+        });
+      };
+    </script>
+    <!-- <div id="fb-root"></div> -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=192120301601669&autoLogAppEvents=1" nonce="KFFgljeD"></script>
+```
+
+./src/components/LoginChoices.tsx
+./src/components/LoginModule.tsx
+

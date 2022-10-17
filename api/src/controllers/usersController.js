@@ -3,13 +3,13 @@ const saltRounds = 10;
 const User = require('../models/User');
 
 exports.show = function(req,res) {
-    console.log(res.locals.user)
     if (res.locals.user) {
         User.findById(res.locals.user._id, function(error,response) {
             if (error) {
                 return res.send(error);
             } else {
                 response.pw_hash = 'secured';
+                console.log(response);
                 return res.json(response);
             }
         });
@@ -32,6 +32,7 @@ exports.create = function(req, res) {
             if (error) {
                 return res.send(error);
             } else {
+                console.log(response);
                 res.json(response);
             }
         });
