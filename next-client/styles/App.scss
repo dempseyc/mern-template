@@ -85,9 +85,10 @@ $default-margin: 0.5em;
 }
 
 .item-list {
-  max-height: 19em;
-  // max-height: 912px; //mui button minheight 48px * 19;
+  max-height: 75%;
   min-height: 48px;
+  max-width: 90%;
+  margin: 0 auto;
   overflow-y: scroll;
   margin-top: $default-margin;
 }
