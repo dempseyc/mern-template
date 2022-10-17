@@ -22,28 +22,6 @@ const authRouter = require('./routes/authRouter');
 const tropesRouter = require('./routes/tropesRouter');
 
 const User = require('./models/User');
-// const FacebookTokenStrategy = require('passport-facebook-token');
-// const passport = require('passport');
-// required below ('express-session');
-
-// passport.use(new FacebookTokenStrategy({
-//     clientID: process.env.FB_ID,
-//     clientSecret: process.env.FB_SECRET,
-// }, function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate({ "facebook_id": profile.id }, function (err, user) {
-//         console.log('user', user, err);
-//         return done(error,user);
-//     });
-// }
-// ));
-
-// passport.serializeUser(function(user, done) {
-//     done(null, user.id);
-//   });
-  
-// passport.deserializeUser(function(id, done) {
-//     done(null, id);
-// });
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,8 +38,6 @@ app.use(morgan('dev', {
 }));
 
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 const extractDetails = function(req,res,next) {
     const auth = req.headers.authorization.split(' ')[1];
@@ -76,10 +52,7 @@ const extractDetails = function(req,res,next) {
 };
 
 app.use('/api/auth/login', extractDetails);
-// app.use('/api/auth/fb', passport.authenticate('facebook-token'), function(error, user) {
-//     console.log('hit /fb route', user);
-//     //respond or next here
-// });
+
 app.use('/api/auth', authRouter);
 
 ////////////////////////////////////////////// SOCKET STUFF

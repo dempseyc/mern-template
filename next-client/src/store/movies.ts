@@ -47,7 +47,6 @@ export const movies: MoviesModel = {
     resetQuery: action((state,payload) => {
       state.query = {text:'',page:-1};
       state.pages = 0;
-      state.data = [];
       state.loading = false;
       state.complete = false;
       state.error = false;

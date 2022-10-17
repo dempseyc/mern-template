@@ -18,13 +18,15 @@ exports.login = function (req,res){
                         console.log(`err from bcrypt`);
                         return res.status(401).json({message: 'Invalid Password/Email 1'});
                     } else if (isMatch) {
-                        var token = jwt.sign({user_id: user._id}, process.env.TOKEN_KEY);
-                        return res.status(200).json({
+                        const token = jwt.sign({user_id: user._id}, process.env.TOKEN_KEY);
+                        const info = {
                             user_id: user._id,
                             email: user.email,
                             username: user.username,
                             token: token,
-                        });
+                        };
+                        console.log(info);
+                        return res.status(200).json(info);
                     } else {
                         console.log(`bad pw`);
                         return res.status(401).json({message: 'Invalid Password/Email 2'});
@@ -45,22 +47,3 @@ exports.login = function (req,res){
         return res.status(400).json({message:'No Auth Details'});
     }
 };
-
-// var passport = require('passport');
-
-// exports.fb_login = function(req,res) {
-//     console.log(req.body, 'success');
-//     return res.status(200).json(req.body.user)
-// } 
-
-// exports.fb_fail = function(req,res) {
-//     console.log(req.body, 'fail');
-//     return res.status(401).json({message: 'fb failed login'})
-// }
-
-// exports.fb_logout = function(req,res, next) {
-//     req.logout(function (err) {
-//         if (err) { return next(err); }
-//         return res.status(402).json({message: 'fb logged out'})
-//     })
-// }

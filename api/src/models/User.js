@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const UserSchema = new Schema({
     created_on: {type: Date, default: Date.now },
     username: {type: String, max: 100},
+    image: {type: String, max: 100, default: "/blank-profile-picture-973460_1280.webp"},
     facebook_id: {type: String},
     email: {type: String, max: 100, unique: true},
     pw_hash: {type: String , max: 100},
